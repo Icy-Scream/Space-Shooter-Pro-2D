@@ -77,9 +77,10 @@ public class Player : MonoBehaviour
     }
     private void Shoot()
     {
+        Vector3 laserpos = new Vector3(transform.position.x,transform.position.y + 0.8f, transform.position.z);
         if(Input.GetKeyDown(KeyCode.Space))
         {
-          Instantiate(laserPrefab,transform.position, Quaternion.identity);
+          Instantiate(laserPrefab,laserpos,Quaternion.identity);
         }
     }    
 }

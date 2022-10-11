@@ -22,7 +22,6 @@ public class Laser : MonoBehaviour
     {
         transform.Translate(Vector3.up*_laserSpeed*Time.deltaTime);
     }
-
     IEnumerator DestroyLaserRoutine()
     {
         yield return new WaitForSeconds(_destroyTimer);
