@@ -6,17 +6,20 @@ public class Player : MonoBehaviour
 {
     [SerializeField ] private float _playerSpeed = 5.0f;
      [SerializeField] private GameObject laserPrefab;
+     [SerializeField] private bool _fireWeapon;
+     [SerializeField] private float _fireRate;
     
     // Start is called before the first frame update
     void Start()
     {
         transform.position = new Vector3(0,0,0);
+        _fireWeapon = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-         PlayerBoundaries();
+        PlayerBoundaries();
         playeraxismove();
         Shoot();
         //transform.Translate(new Vector3(1,0,0)*300* Time.deltaTime);
@@ -78,9 +81,21 @@ public class Player : MonoBehaviour
     private void Shoot()
     {
         Vector3 laserpos = new Vector3(transform.position.x,transform.position.y + 0.8f, transform.position.z);
-        if(Input.GetKeyDown(KeyCode.Space))
+        
+        if(Input.GetKeyDown(KeyCode.Space) && _fireWeapon)
         {
           Instantiate(laserPrefab,laserpos,Quaternion.identity);
+          _fireWeapon = false;
+          StartCoroutine(DelayFireRateRoutine());
         }
-    }    
+    } 
+
+    IEnumerator DelayFireRateRoutine()
+    {
+        yield return new WaitForSeconds(_fireRate);
+        _fireWeapon = true;
+
+
+    }
+
 }
