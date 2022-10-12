@@ -6,13 +6,12 @@ public class Laser : MonoBehaviour
 {
     [SerializeField] private float _laserSpeed;
     [SerializeField] private float _destroyTimer;
-    // Start is called before the first frame update
+
     void Start()
     {
         StartCoroutine(DestroyLaserRoutine());
     }
 
-    // Update is called once per frame
     void Update()
     {
         LaserTranslate();

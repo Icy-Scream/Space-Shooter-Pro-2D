@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
      [SerializeField] private bool _fireWeapon;
      [SerializeField] private float _fireRate;
     
-    // Start is called before the first frame update
+
     void Start()
     {
         transform.position = new Vector3(0,0,0);
@@ -22,8 +22,6 @@ public class Player : MonoBehaviour
         PlayerBoundaries();
         playeraxismove();
         Shoot();
-        //transform.Translate(new Vector3(1,0,0)*300* Time.deltaTime);
-        
     }
     
     private void PlayerBoundaries()
@@ -78,6 +76,10 @@ public class Player : MonoBehaviour
         Vector3 direction = new Vector3(HorizontalInput,VerticalInput,0);
         transform.Translate(direction *_playerSpeed * Time.deltaTime);
     }
+    /*if spacebar is pressed player shoots
+      When spacebar is pressed create the laser object
+      player is firing true
+      add delay for the rate of fire*/
     private void Shoot()
     {
         Vector3 laserpos = new Vector3(transform.position.x,transform.position.y + 0.8f, transform.position.z);
