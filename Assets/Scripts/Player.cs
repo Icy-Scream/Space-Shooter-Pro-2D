@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
          
         if(Input.GetKey(KeyCode.A))
         {
-            transform.Translate(new Vector3(-1,0,0)*_playerSpeed * Time.deltaTime);
+            transform.Translate(new Vector3(-1,0,0) *_playerSpeed * Time.deltaTime);
         }
         else if(Input.GetKey(KeyCode.D))
         {
@@ -81,7 +81,7 @@ public class Player : MonoBehaviour
 
 
         Vector3 direction = new Vector3(HorizontalInput,VerticalInput,0);
-        transform.Translate(direction *_playerSpeed * Time.deltaTime);
+        transform.Translate(direction  *_playerSpeed * Time.deltaTime);
     }
     private void Shoot()
     {
