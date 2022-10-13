@@ -78,10 +78,8 @@ public class Player : MonoBehaviour
     {
         float HorizontalInput = Input.GetAxis("Horizontal");
         float VerticalInput = Input.GetAxis("Vertical");
-
-
         Vector3 direction = new Vector3(HorizontalInput,VerticalInput,0);
-        transform.Translate(direction  *_playerSpeed * Time.deltaTime);
+        transform.Translate(direction *_playerSpeed * Time.deltaTime);
     }
     private void Shoot()
     {
