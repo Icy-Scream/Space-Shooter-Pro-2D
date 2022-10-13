@@ -8,16 +8,17 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _enemySpawn = 6.8f;
     [SerializeField] private Vector3 _randomSpawn;
     [SerializeField] private float _enemySpeed = 4.0f;
+    Player health;
     // Start is called before the first frame update
     void Start()
     {
-       
+       health = new Player();
     }
 
     // Update is called once per frame
     void Update()
     {
-        EnemyMovement();
+        EnemyMovement();    
     }
 
     private void EnemyMovement()
@@ -29,4 +30,20 @@ public class Enemy : MonoBehaviour
             transform.position =_randomSpawn;
         } 
     }
+
+private void OnTriggerEnter(Collider other) 
+{
+    if(other.gameObject.tag == "Laser")
+    {
+        Destroy(other.gameObject);
+        Destroy(this.gameObject);
+        Debug.Log("OWH");
+    }
+    else if(other.gameObject.tag == "Player")
+    {
+      float playerHealth = health.healthGet();
+        Destroy(gameObject);
+    }
+}
+
 }

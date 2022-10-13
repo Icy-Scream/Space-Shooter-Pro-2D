@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
      [SerializeField] private GameObject laserPrefab;
      [SerializeField] private bool _fireWeapon;
      [SerializeField] private float _fireRate;
+     [SerializeField] private float _playerHealth = 100f;
     
 
     void Start()
@@ -99,5 +100,8 @@ public class Player : MonoBehaviour
 
 
     }
-
+    public float healthGet()
+    {
+        return _playerHealth;
+    }
 }
