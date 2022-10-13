@@ -17,6 +17,10 @@ public class Player : MonoBehaviour
         spawnScript = GameObject.FindObjectOfType<Spawn_Mananger>();
         transform.position = new Vector3(0,0,0);
         _fireWeapon = true;
+        if (spawnScript == null)
+        {
+            Debug.Log("THE SPAWNMANGER IS NULL!! MISSSSIINNG ERRROOORR");
+        }
     }
 
     // Update is called once per frame
@@ -106,7 +110,7 @@ public class Player : MonoBehaviour
             
             if(_lives < 1)
             {
-                spawnScript.transform.GetComponent<Spawn_Mananger>().OnPlayerDeath();
+                spawnScript.OnPlayerDeath();
                 Destroy(this.gameObject);
                 _playerHealth = 0;
             }
