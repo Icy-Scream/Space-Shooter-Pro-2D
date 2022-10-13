@@ -10,10 +10,11 @@ public class Player : MonoBehaviour
      [SerializeField] private float _fireRate;
      [SerializeField] private float _playerHealth = 100f;
      [SerializeField] private int _lives = 3;
-    
+     Spawn_Mananger spawnScript;
 
     void Start()
     {
+        spawnScript = GameObject.FindObjectOfType<Spawn_Mananger>();
         transform.position = new Vector3(0,0,0);
         _fireWeapon = true;
     }
@@ -105,6 +106,7 @@ public class Player : MonoBehaviour
             
             if(_lives < 1)
             {
+                spawnScript.transform.GetComponent<Spawn_Mananger>().OnPlayerDeath();
                 Destroy(this.gameObject);
                 _playerHealth = 0;
             }
