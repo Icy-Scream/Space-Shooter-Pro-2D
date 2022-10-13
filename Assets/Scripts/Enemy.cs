@@ -8,11 +8,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _enemySpawn = 6.8f;
     [SerializeField] private Vector3 _randomSpawn;
     [SerializeField] private float _enemySpeed = 4.0f;
-    Player health;
     // Start is called before the first frame update
     void Start()
     {
-       health = new Player();
+
     }
 
     // Update is called once per frame
@@ -41,8 +40,14 @@ private void OnTriggerEnter(Collider other)
     }
     else if(other.gameObject.tag == "Player")
     {
-      float playerHealth = health.healthGet();
-        Destroy(gameObject);
+        Player player = other.gameObject.GetComponent<Player>();
+        if(player != null)
+        {
+           
+            player.Damage();
+            player.GetComponent<MeshRenderer>().material.color = new Color(Random.value,Random.value,Random.value);
+        }
+        Debug.Log("COMPONENT MISSING");
     }
 }
 

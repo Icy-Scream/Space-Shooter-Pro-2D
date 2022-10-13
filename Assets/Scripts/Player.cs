@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
      [SerializeField] private bool _fireWeapon;
      [SerializeField] private float _fireRate;
      [SerializeField] private float _playerHealth = 100f;
+     [SerializeField] private int _lives = 3;
     
 
     void Start()
@@ -97,11 +98,24 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(_fireRate);
         _fireWeapon = true;
-
-
     }
-    public float healthGet()
+
+    public void Damage()
     {
-        return _playerHealth;
+        _playerHealth += -20;
+        
+        if(_playerHealth < 1)
+        {   _lives--;
+            
+            if(_lives < 1)
+            {
+                Destroy(this.gameObject);
+                _playerHealth = 0;
+            }
+            else _playerHealth = 100;
+        }
+        
     }
+    
+
 }
