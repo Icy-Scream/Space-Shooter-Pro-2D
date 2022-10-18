@@ -27,9 +27,9 @@ public class Spawn_Mananger : MonoBehaviour
         while(_stopspawing == false)
         {
             yield return new WaitForSeconds(_spawnTimer);
-           _spawnPOS = new Vector3(Random.Range(-11.18f,11.18f),6.8f,0);
+           _spawnPOS = new Vector3(Random.Range(-10.0f,10.0f),6.8f,0);
         
-            GameObject newEnemy = Instantiate(_enemy,this.gameObject.transform.position, Quaternion.identity);
+            GameObject newEnemy = Instantiate(_enemy,_spawnPOS, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
         }
 
