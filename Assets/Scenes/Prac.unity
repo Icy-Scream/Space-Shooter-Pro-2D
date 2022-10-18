@@ -323,7 +323,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -788029197
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 351f30ffb741fd643b82bde90a222699, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -473,6 +473,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2853294570463755504, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
+      propertyPath: _lives
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2853294570463755504, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
+      propertyPath: _playerHealth
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 2853294570463755511, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -581,6 +589,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 228044108, guid: 73343a9d4233eeb4786b55df2838a28c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3655339342265366323, guid: 73343a9d4233eeb4786b55df2838a28c, type: 3}
       propertyPath: m_Name
       value: Enemy

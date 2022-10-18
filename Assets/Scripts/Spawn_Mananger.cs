@@ -8,19 +8,13 @@ public class Spawn_Mananger : MonoBehaviour
     [SerializeField] GameObject _enemyContainer;
     [SerializeField] float _spawnTimer = 5;
     [SerializeField] private Vector3 _spawnPOS;
-
     [SerializeField] private bool _stopspawing = false;
+
     
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(SpawnEnemyRoutine());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
     IEnumerator SpawnEnemyRoutine()
     {

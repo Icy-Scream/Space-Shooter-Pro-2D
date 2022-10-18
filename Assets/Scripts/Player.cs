@@ -2,6 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class WeaponStats
+{
+    public string name;
+    public float fireRate;
+    public int ammoCount;
+    public WeaponStats(string name, float fireRate, int ammoCount)
+    {
+       this.name = name;
+       this.fireRate = fireRate;
+       this.ammoCount = ammoCount;
+    }
+}
 public class Player : MonoBehaviour
 {
     [SerializeField ] private float _playerSpeed = 5.0f;
@@ -10,14 +22,16 @@ public class Player : MonoBehaviour
      [SerializeField] private float _fireRate;
      [SerializeField] private float _playerHealth = 100f;
      [SerializeField] private int _lives = 3;
-     Spawn_Mananger spawnScript;
-
+     Spawn_Mananger _spawnScript;
     void Start()
     {
-        spawnScript = GameObject.FindObjectOfType<Spawn_Mananger>();
+        _spawnScript = GameObject.FindObjectOfType<Spawn_Mananger>();
+       
         transform.position = new Vector3(0,0,0);
+       
         _fireWeapon = true;
-        if (spawnScript == null)
+       
+        if (_spawnScript == null)
         {
             Debug.Log("THE SPAWNMANGER IS NULL!! MISSSSIINNG ERRROOORR");
         }
@@ -108,7 +122,7 @@ public class Player : MonoBehaviour
             
             if(_lives < 1)
             {
-                spawnScript.OnPlayerDeath();
+                _spawnScript.OnPlayerDeath();
                 Destroy(this.gameObject);
                 _playerHealth = 0;
             }
