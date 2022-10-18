@@ -43,9 +43,8 @@ private void OnTriggerEnter(Collider other)
         Player player = other.gameObject.GetComponent<Player>();
         if(player != null)
         {
-           
-            player.Damage();
-            player.GetComponent<MeshRenderer>().material.color = new Color(Random.value,Random.value,Random.value);
+         player.Damage();
+         player.GetComponent<MeshRenderer>().material.color = new Color(Random.value,Random.value,Random.value);
         }
         Debug.Log("COMPONENT MISSING");
     }

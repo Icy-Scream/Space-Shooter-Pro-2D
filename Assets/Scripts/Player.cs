@@ -118,6 +118,10 @@ public class Player : MonoBehaviour
         }
         
     }
-    
+
+IEnumerator ExampleRoutine()
+{
+     yield return new WaitForSeconds(0.5f);
+}
 
 }
