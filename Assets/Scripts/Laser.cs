@@ -24,6 +24,10 @@ public class Laser : MonoBehaviour
     IEnumerator DestroyLaserRoutine()
     {
         yield return new WaitForSeconds(_destroyTimer);
-        Object.Destroy(this.gameObject);
+        if(transform.parent != null)
+        {
+            Destroy(transform.parent.gameObject);
+        }
+        Destroy(this.gameObject);
     }
 }
