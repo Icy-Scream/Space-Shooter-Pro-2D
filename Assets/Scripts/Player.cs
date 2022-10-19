@@ -1,28 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class WeaponStats
-{
-    public string name;
-    public float fireRate;
-    public int ammoCount;
-    public WeaponStats(string name, float fireRate, int ammoCount)
-    {
-       this.name = name;
-       this.fireRate = fireRate;
-       this.ammoCount = ammoCount;
-    }
-}
 public class Player : MonoBehaviour
 {
-    [SerializeField ] private float _playerSpeed = 5.0f;
-     [SerializeField] private GameObject laserPrefab;
+     [SerializeField] private float _playerSpeed = 5.0f;
+     [SerializeField] private GameObject _laserPrefab;
      [SerializeField] private bool _fireWeapon;
      [SerializeField] private float _fireRate;
      [SerializeField] private float _playerHealth = 100f;
      [SerializeField] private int _lives = 3;
-     Spawn_Mananger _spawnScript;
+     [SerializeField] private bool _isTripleShotEnabled = false;
+     [SerializeField] private GameObject _tripleShotPrefab;
+     [SerializeField] private float _tripleShotLength = 5.0f;
+     private Spawn_Mananger _spawnScript;
     void Start()
     {
         _spawnScript = GameObject.FindObjectOfType<Spawn_Mananger>();
@@ -65,29 +57,6 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(11.5f, transform.position.y, 0);
         }
     }
-
-    private void _playerMovement()
-    {
-         
-        if(Input.GetKey(KeyCode.A))
-        {
-            transform.Translate(new Vector3(-1,0,0) *_playerSpeed * Time.deltaTime);
-        }
-        else if(Input.GetKey(KeyCode.D))
-        {
-            transform.Translate(new Vector3(1,0,0)*_playerSpeed * Time.deltaTime);
-        }
-        else if(Input.GetKey(KeyCode.W))
-        {
-            transform.Translate(new Vector3(0,1,0)*_playerSpeed * Time.deltaTime);
-        }
-        else if(Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(new Vector3(0,-1,0)*_playerSpeed * Time.deltaTime);
-        }
-            
-    }
-
     private void playeraxismove()
     {
         float HorizontalInput = Input.GetAxis("Horizontal");
@@ -98,10 +67,16 @@ public class Player : MonoBehaviour
     private void Shoot()
     {
         Vector3 laserpos = new Vector3(transform.position.x,transform.position.y + 0.8f, transform.position.z);
-        
-        if(Input.GetKeyDown(KeyCode.Space) && _fireWeapon)
+        if (Input.GetKeyDown(KeyCode.Space) && _fireWeapon)
         {
-          Instantiate(laserPrefab,laserpos,Quaternion.identity);
+            if (_isTripleShotEnabled) 
+            {
+                Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+                _fireWeapon = false;
+                StartCoroutine(DelayFireRateRoutine());
+            }
+            else
+           Instantiate(_laserPrefab,laserpos,Quaternion.identity);
           _fireWeapon = false;
           StartCoroutine(DelayFireRateRoutine());
         }
@@ -116,8 +91,8 @@ public class Player : MonoBehaviour
     public void Damage()
     {
         _playerHealth += -20;
-        
-        if(_playerHealth < 1)
+        StartCoroutine(FlashRedCourtine());
+        if (_playerHealth < 1)
         {   _lives--;
             
             if(_lives < 1)
@@ -130,6 +105,22 @@ public class Player : MonoBehaviour
         }
         
     }
-    
+    IEnumerator FlashRedCourtine()
+    {
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        yield return new WaitForSeconds(0.3f);
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
 
+    public void SetTripleShot() 
+    {
+        _isTripleShotEnabled = true;
+        StartCoroutine(TripleShotPowerDownRoutine());
+    }
+    
+    IEnumerator TripleShotPowerDownRoutine() 
+    {
+        yield return new WaitForSeconds(_tripleShotLength);
+        _isTripleShotEnabled = false;
+    }
 }

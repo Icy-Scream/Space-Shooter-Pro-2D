@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -8,7 +9,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _enemySpawn = 6.8f;
     [SerializeField] private Vector3 _randomSpawn;
     [SerializeField] private float _enemySpeed = 4.0f;
-    Player _player;
+    private Player  _player;
 
     // Update is called once per frame
     void Update()
@@ -38,19 +39,13 @@ private void OnTriggerEnter2D(Collider2D other)
     {
          _player = other.gameObject.GetComponent<Player>();
         if(_player != null)
-        {   
+        {
+             Destroy(this.gameObject);
             _player.Damage();
-            StartCoroutine(FlashRedCourtine());
+            
         }
         Debug.Log("COMPONENT MISSING");
     }
-}
-
-IEnumerator FlashRedCourtine()
-{
-    _player.GetComponent<SpriteRenderer>().color = Color.red;
-    yield return new WaitForSeconds(0.3f);
-    _player.GetComponent<SpriteRenderer>().color = Color.white;
 }
 
 }

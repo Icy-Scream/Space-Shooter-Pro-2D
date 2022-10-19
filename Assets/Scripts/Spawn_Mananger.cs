@@ -6,7 +6,10 @@ public class Spawn_Mananger : MonoBehaviour
 {
     [SerializeField] GameObject _enemy;
     [SerializeField] GameObject _enemyContainer;
+    [SerializeField] GameObject _powerUpContainer;
+    [SerializeField] GameObject _tripleShotPowerUp;
     [SerializeField] float _spawnTimer = 5;
+    [SerializeField] float _powerUpTimer;
     [SerializeField] private Vector3 _spawnPOS;
     [SerializeField] private bool _stopspawing = false;
 
@@ -15,6 +18,7 @@ public class Spawn_Mananger : MonoBehaviour
     void Start()
     {
         StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnPowerUp());
     }
     IEnumerator SpawnEnemyRoutine()
     {
@@ -28,6 +32,22 @@ public class Spawn_Mananger : MonoBehaviour
         }
 
     }
+
+    IEnumerator SpawnPowerUp() 
+    {
+        while(_stopspawing == false) 
+        {
+            yield return new WaitForSeconds(_powerUpTimer);
+            _spawnPOS = new Vector3(Random.Range(-10.0f, 10.0f), 6.8f, 0);
+            GameObject _newPowerUp = Instantiate(_tripleShotPowerUp,_spawnPOS, Quaternion.identity);
+            _newPowerUp.transform.parent = _powerUpContainer.transform;
+        }
+    }
+
+
+
+    
+
 
     public void OnPlayerDeath()
     {
