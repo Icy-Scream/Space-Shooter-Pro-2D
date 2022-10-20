@@ -5,8 +5,8 @@ using UnityEngine.UIElements;
 
 public class PowerUp : MonoBehaviour
 {
-    [SerializeField] private GameObject _tripleShotPowerUp;
     [SerializeField] private float _speed = 3.0f;
+    [SerializeField] private int _powerUpID;
     void Update()
     {
         PowerUpMove();
@@ -30,7 +30,21 @@ public class PowerUp : MonoBehaviour
           Player player =  collision.GetComponent<Player>();
             if (player != null) 
             {
-                player.SetTripleShot();
+                if(_powerUpID == 0) 
+                {
+                    Debug.Log(_powerUpID);
+                    player.SetTripleShot();
+                }
+                else if (_powerUpID == 1) 
+                {
+                    Debug.Log(_powerUpID + " SPEEED");
+                }
+                else if (_powerUpID == 2) 
+                {
+                    Debug.Log(_powerUpID + " SHIELDS");
+                }
+                
+                
             }
          
             Destroy(this.gameObject);
