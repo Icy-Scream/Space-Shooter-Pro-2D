@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
@@ -11,10 +12,16 @@ public class Player : MonoBehaviour
      [SerializeField] private float _fireRate;
      [SerializeField] private float _playerHealth = 100f;
      [SerializeField] private int _lives = 3;
-     [SerializeField] private bool _isTripleShotEnabled = false;
+     
+     private bool _isTripleShotEnabled = false;
      [SerializeField] private GameObject _tripleShotPrefab;
-     [SerializeField] private float _tripleShotLength = 5.0f;
-     private Spawn_Mananger _spawnScript;
+     [SerializeField] private float _tripleShotDuration = 5.0f;
+
+    private bool _isSpeedBoostEnabled = false;
+    [SerializeField] private float _speedBoost = 5.0f;
+    [SerializeField] private float _speedBoostDuration = 3.0f;
+    
+    private Spawn_Mananger _spawnScript;
     void Start()
     {
         _spawnScript = GameObject.FindObjectOfType<Spawn_Mananger>();
@@ -62,7 +69,13 @@ public class Player : MonoBehaviour
         float HorizontalInput = Input.GetAxis("Horizontal");
         float VerticalInput = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(HorizontalInput,VerticalInput,0);
-        transform.Translate(direction *_playerSpeed * Time.deltaTime);
+        if(_isSpeedBoostEnabled == true)
+        {
+            transform.Translate(direction * (_playerSpeed + _speedBoost) * Time.deltaTime);
+        }
+        else
+            transform.Translate(direction * _playerSpeed * Time.deltaTime);
+
     }
     private void Shoot()
     {
@@ -117,10 +130,28 @@ public class Player : MonoBehaviour
         _isTripleShotEnabled = true;
         StartCoroutine(TripleShotPowerDownRoutine());
     }
+
+    public void SetSpeedBoost() 
+    {
+        _isSpeedBoostEnabled = true;
+        StartCoroutine(SpeedBoostPowerDownRoutine());
+    }
+
+    public void SetShield() 
+    { 
+        
+    }
     
     IEnumerator TripleShotPowerDownRoutine() 
     {
-        yield return new WaitForSeconds(_tripleShotLength);
+        yield return new WaitForSeconds(_tripleShotDuration);
         _isTripleShotEnabled = false;
     }
+
+    IEnumerator SpeedBoostPowerDownRoutine() 
+    {
+        yield return new WaitForSeconds(_speedBoostDuration);
+        _isSpeedBoostEnabled = false;
+    }
+
 }

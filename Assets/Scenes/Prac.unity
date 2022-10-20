@@ -123,6 +123,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &57265440
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2162877809248072811, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
+      propertyPath: m_Name
+      value: Speed_Power_Up
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560146853169287368, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560146853169287368, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560146853169287368, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 9.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560146853169287368, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560146853169287368, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560146853169287368, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560146853169287368, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560146853169287368, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560146853169287368, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560146853169287368, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560146853169287368, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
 --- !u!1 &624496599
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,6 +533,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1998629755, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
+      propertyPath: m_Size.x
+      value: 2.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1998629755, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
+      propertyPath: m_Size.y
+      value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1998629755, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 1998629755, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2853294570463755504, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
+      propertyPath: _speedBoost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2853294570463755504, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
+      propertyPath: _playerSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2853294570463755504, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
+      propertyPath: _speedBoostDuration
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2853294570463755511, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
       propertyPath: m_RootOrder
       value: 5

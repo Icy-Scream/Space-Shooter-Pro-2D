@@ -6,12 +6,12 @@ public class Spawn_Mananger : MonoBehaviour
 {
     [SerializeField] GameObject _enemy;
     [SerializeField] GameObject _enemyContainer;
-    [SerializeField] GameObject _powerUpContainer;
-    [SerializeField] GameObject _tripleShotPowerUp;
+    [SerializeField] GameObject[] _powerUps;
     [SerializeField] float _spawnTimer;
     [SerializeField] float _powerUpTimer;
-    [SerializeField] private Vector3 _spawnPOS;
     [SerializeField] private bool _stopspawing = false;
+    
+    private Vector3 _spawnPOS;
 
     
     // Start is called before the first frame update
@@ -25,7 +25,7 @@ public class Spawn_Mananger : MonoBehaviour
         while(_stopspawing == false)
         {
             yield return new WaitForSeconds(_spawnTimer);
-           _spawnPOS = new Vector3(Random.Range(-10.0f,10.0f),6.8f,0);
+           _spawnPOS = new Vector3(Random.Range(-9.0f,9.0f),6.8f,0);
         
             GameObject newEnemy = Instantiate(_enemy,_spawnPOS, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
@@ -40,7 +40,7 @@ public class Spawn_Mananger : MonoBehaviour
             _powerUpTimer = Random.Range(3.0f, 7.0f);
             yield return new WaitForSeconds(_powerUpTimer);
             _spawnPOS = new Vector3(Random.Range(-10.0f, 10.0f), 6.8f, 0);
-            Instantiate(_tripleShotPowerUp,_spawnPOS, Quaternion.identity);
+            Instantiate(_powerUps[Random.Range(0,3)],_spawnPOS, Quaternion.identity);
         }
     }
     public void OnPlayerDeath()

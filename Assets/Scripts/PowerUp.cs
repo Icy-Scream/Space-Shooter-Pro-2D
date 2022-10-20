@@ -28,22 +28,26 @@ public class PowerUp : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
           Player player =  collision.GetComponent<Player>();
+            
             if (player != null) 
             {
-                if(_powerUpID == 0) 
-                {
-                    Debug.Log(_powerUpID);
-                    player.SetTripleShot();
+                switch (_powerUpID) 
+                { 
+                    case 0:
+                        Debug.Log("TRIPLE SHOT");
+                        player.SetTripleShot();
+                        break;
+                    case 1:
+                        Debug.Log("SPEED BOOST");
+                        player.SetSpeedBoost();
+                        break;
+                    case 2:
+                        Debug.Log("Shields");
+                        break;
+                    default:
+                        Debug.Log("Default Value");
+                        break;
                 }
-                else if (_powerUpID == 1) 
-                {
-                    Debug.Log(_powerUpID + " SPEEED");
-                }
-                else if (_powerUpID == 2) 
-                {
-                    Debug.Log(_powerUpID + " SHIELDS");
-                }
-                
                 
             }
          
