@@ -17,10 +17,12 @@ public class Player : MonoBehaviour
      [SerializeField] private GameObject _tripleShotPrefab;
      [SerializeField] private float _tripleShotDuration = 5.0f;
 
-    private bool _isSpeedBoostEnabled = false;
-    [SerializeField] private float _speedBoost = 5.0f;
-    [SerializeField] private float _speedBoostDuration = 3.0f;
-    
+     private bool _isSpeedBoostEnabled = false;
+     [SerializeField] private float _speedBoost = 5.0f;
+     [SerializeField] private float _speedBoostDuration = 3.0f;
+
+     [SerializeField] private bool _isShieldsEnabled = false;
+   
     private Spawn_Mananger _spawnScript;
     void Start()
     {
@@ -103,8 +105,16 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        if (_isShieldsEnabled) 
+        {
+            _isShieldsEnabled = false;
+            GameObject shield = transform.GetChild(0).gameObject;
+            shield.GetComponent<SpriteRenderer>().enabled = false;
+            return;    
+        }
         _playerHealth += -20;
         StartCoroutine(FlashRedCourtine());
+        
         if (_playerHealth < 1)
         {   _lives--;
             
@@ -138,8 +148,10 @@ public class Player : MonoBehaviour
     }
 
     public void SetShield() 
-    { 
-        
+    {
+        _isShieldsEnabled = true;
+        GameObject shield = transform.GetChild(0).gameObject;
+        shield.GetComponent<SpriteRenderer>().enabled = true;
     }
     
     IEnumerator TripleShotPowerDownRoutine() 
