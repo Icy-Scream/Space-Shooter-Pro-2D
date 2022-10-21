@@ -2,14 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
+
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text _scoreText;
     [SerializeField] private TMP_Text _gameOverText;
+    [SerializeField] private TMP_Text _restartLevel;
     [SerializeField] private GameObject _playerGameObject;
     private Player _playerScript;
+    [SerializeField] private bool _isGameOver;
     void Start()
     {
+        _restartLevel.gameObject.SetActive(false);
         if(_playerGameObject != null)
         {
             _playerScript = _playerGameObject.GetComponent<Player>();
@@ -23,6 +29,11 @@ public class UIManager : MonoBehaviour
         {
             _scoreText.text = "Score: " + _playerScript.GetScore();
         }
+        if (_isGameOver && Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
+        }
+
     }
     
 
@@ -33,10 +44,29 @@ public class UIManager : MonoBehaviour
 
     public void GameOver()
     {
-      _gameOverText.text = "Game Over";
-    }
+        _isGameOver = true;
+        _restartLevel.gameObject.SetActive(true);
+        StartCoroutine(GameOverFlickerRoutine());
  
-       
+    }
+   
+      
+        
+        
+ 
+    IEnumerator GameOverFlickerRoutine() 
+    {
+        while (true) 
+        { 
+            _gameOverText.text = "GAME OVER";
+            yield return new WaitForSeconds(0.5f);
+            _gameOverText.text = "";
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+        
+        
+        
 
 
 

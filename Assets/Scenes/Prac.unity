@@ -869,7 +869,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -68.63218, w: -4.2170143}
+  m_margin: {x: 0, y: 0, z: -111.84496, w: -54.987366}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -916,8 +916,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scoreText: {fileID: 112224454}
-  _gameOverText: {fileID: 0}
+  _gameOverText: {fileID: 897405970}
   _playerGameObject: {fileID: 224420723}
+  _isGameOver: 0
 --- !u!114 &1065827778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1208,6 +1209,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2853294570463755504, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
+      propertyPath: _lives
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2853294570463755511, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
       propertyPath: m_RootOrder
       value: 5
