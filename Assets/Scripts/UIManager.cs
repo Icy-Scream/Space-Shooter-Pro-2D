@@ -5,6 +5,7 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text _scoreText;
+    [SerializeField] private TMP_Text _gameOverText;
     [SerializeField] private GameObject _playerGameObject;
     private Player _playerScript;
     void Start()
@@ -29,7 +30,14 @@ public class UIManager : MonoBehaviour
     {
         transform.GetChild(1).transform.GetChild(currentLives).GetComponent<SpriteRenderer>().enabled = false;
     }
-    
+
+    public void GameOver()
+    {
+      _gameOverText.text = "Game Over";
+    }
+ 
+       
+
 
 
 

@@ -129,6 +129,7 @@ public class Player : MonoBehaviour
             if(_lives < 1)
             {
                 _spawnScript.OnPlayerDeath();
+                _uiManager.GameOver();
                 Destroy(this.gameObject);
                 _playerHealth = 0;
             }
