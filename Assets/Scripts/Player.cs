@@ -20,10 +20,12 @@ public class Player : MonoBehaviour
      private bool _isSpeedBoostEnabled = false;
      [SerializeField] private float _speedBoost = 5.0f;
      [SerializeField] private float _speedBoostDuration = 3.0f;
-
      [SerializeField] private bool _isShieldsEnabled = false;
+     [SerializeField] private int _score = 0;
+
+
    
-    private Spawn_Mananger _spawnScript;
+     private Spawn_Mananger _spawnScript;
     void Start()
     {
         _spawnScript = GameObject.FindObjectOfType<Spawn_Mananger>();
@@ -154,6 +156,14 @@ public class Player : MonoBehaviour
         shield.GetComponent<SpriteRenderer>().enabled = true;
     }
     
+    public void AddScore(int points) 
+    {
+        _score += points;
+    }
+    public int GetScore() 
+    {
+        return _score;
+    }
     IEnumerator TripleShotPowerDownRoutine() 
     {
         yield return new WaitForSeconds(_tripleShotDuration);

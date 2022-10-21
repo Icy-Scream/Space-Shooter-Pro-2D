@@ -11,6 +11,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _enemySpeed = 4.0f;
     private Player  _player;
 
+    private void Start()
+    {
+        _player = FindObjectOfType<Player>().GetComponent<Player>();
+    }
     void Update()
     {
         EnemyMovement();    
@@ -28,22 +32,31 @@ public class Enemy : MonoBehaviour
 
 private void OnTriggerEnter2D(Collider2D other) 
 {
+    
+  
+    
     if(other.gameObject.tag == "Laser")
     {
-        Destroy(other.gameObject);
-        Destroy(this.gameObject);
-        Debug.Log("OWH");
+        if(_player != null) 
+            { 
+            
+                _player.AddScore(Random.Range(0,50));
+                Destroy(other.gameObject);
+                Destroy(this.gameObject);
+            }
     }
+            
+            
     else if(other.gameObject.tag == "Player")
     {
-         _player = other.gameObject.GetComponent<Player>();
         if(_player != null)
         {
-             Destroy(this.gameObject);
-            _player.Damage();
-            
+           Destroy(this.gameObject);
+           _player.Damage();
         }
+        else
         Debug.Log("COMPONENT MISSING");
+            
     }
 }
 
