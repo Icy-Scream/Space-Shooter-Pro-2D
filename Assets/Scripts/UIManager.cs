@@ -23,4 +23,14 @@ public class UIManager : MonoBehaviour
             _scoreText.text = "Score: " + _playerScript.GetScore();
         }
     }
+    
+
+    public void UpdateLives(int currentLives) 
+    {
+        transform.GetChild(1).transform.GetChild(currentLives).GetComponent<SpriteRenderer>().enabled = false;
+    }
+    
+
+
+
 }

@@ -13,7 +13,12 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        _player = FindObjectOfType<Player>().GetComponent<Player>();
+        if (GameObject.Find("Player"))
+        {
+            _player = GameObject.Find("Player").GetComponent<Player>();
+        }
+        else Debug.Log("Player Object Destroyed");
+       
     }
     void Update()
     {
@@ -43,6 +48,10 @@ private void OnTriggerEnter2D(Collider2D other)
                 _player.AddScore(Random.Range(0,50));
                 Destroy(other.gameObject);
                 Destroy(this.gameObject);
+            }
+            else
+            {
+                Debug.Log("Missing Player Object");
             }
     }
             

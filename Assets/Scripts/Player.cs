@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
      [SerializeField] private float _speedBoostDuration = 3.0f;
      [SerializeField] private bool _isShieldsEnabled = false;
      [SerializeField] private int _score = 0;
+                      private UIManager _uiManager;
 
 
    
@@ -29,14 +30,19 @@ public class Player : MonoBehaviour
     void Start()
     {
         _spawnScript = GameObject.FindObjectOfType<Spawn_Mananger>();
-       
-        transform.position = new Vector3(0,0,0);
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        transform.position = new Vector3(0,-5,0);
        
         _fireWeapon = true;
        
         if (_spawnScript == null)
         {
             Debug.Log("THE SPAWNMANGER IS NULL!! MISSSSIINNG ERRROOORR");
+        }
+
+        if( _uiManager == null) 
+        {
+            Debug.Log("Missing UI Manager");
         }
     }
 
@@ -119,7 +125,7 @@ public class Player : MonoBehaviour
         
         if (_playerHealth < 1)
         {   _lives--;
-            
+            _uiManager.UpdateLives(_lives);
             if(_lives < 1)
             {
                 _spawnScript.OnPlayerDeath();
