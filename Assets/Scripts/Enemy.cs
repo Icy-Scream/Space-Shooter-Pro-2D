@@ -10,15 +10,21 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Vector3 _randomSpawn;
     [SerializeField] private float _enemySpeed = 4.0f;
     private Player  _player;
-
+    private Animator _animation;
     private void Start()
     {
         if (GameObject.Find("Player"))
         {
             _player = GameObject.Find("Player").GetComponent<Player>();
+            
         }
         else Debug.Log("Player Object Destroyed");
-       
+        _animation = gameObject.GetComponent<Animator>();
+        if(_animation != null) 
+        { 
+            Debug.Log("Missing Anim");
+        }
+
     }
     void Update()
     {
@@ -42,12 +48,13 @@ private void OnTriggerEnter2D(Collider2D other)
     
     if(other.gameObject.tag == "Laser")
     {
-        if(_player != null) 
-            { 
-            
+        if(_player != null)
+            {
+                _enemySpeed = 0;
                 _player.AddScore(Random.Range(0,50));
+                _animation.SetTrigger("OnEnemyDeath");
                 Destroy(other.gameObject);
-                Destroy(this.gameObject);
+                Destroy(this.gameObject,2.8f);
             }
             else
             {
@@ -60,7 +67,8 @@ private void OnTriggerEnter2D(Collider2D other)
     {
         if(_player != null)
         {
-           Destroy(this.gameObject);
+           _animation.SetTrigger("OnEnemyDeath");
+           Destroy(this.gameObject,2.8f);
            _player.Damage();
         }
         else
