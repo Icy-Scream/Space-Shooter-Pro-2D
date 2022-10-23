@@ -17,20 +17,24 @@ public class Player : MonoBehaviour
      [SerializeField] private GameObject _tripleShotPrefab;
      [SerializeField] private float _tripleShotDuration = 5.0f;
 
-     private bool _isSpeedBoostEnabled = false;
-     [SerializeField] private float _speedBoost = 5.0f;
-     [SerializeField] private float _speedBoostDuration = 3.0f;
-     [SerializeField] private bool _isShieldsEnabled = false;
-     [SerializeField] private int _score = 0;
-                      private UIManager _uiManager;
-
-
+    private bool _isSpeedBoostEnabled = false;
+    [SerializeField] private float _speedBoost = 5.0f;
+    [SerializeField] private float _speedBoostDuration = 3.0f;
+    [SerializeField] private bool _isShieldsEnabled = false;
+    [SerializeField] private int _score = 0;
+     
+    private UIManager _uiManager;
+    
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _laserAudioClip;
    
      private Spawn_Mananger _spawnScript;
     void Start()
     {
         _spawnScript = GameObject.FindObjectOfType<Spawn_Mananger>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _audioSource = GetComponent<AudioSource>();
+        
         transform.position = new Vector3(0,-5,0);
        
         _fireWeapon = true;
@@ -44,6 +48,12 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Missing UI Manager");
         }
+
+        if(_audioSource == null) 
+        {
+            Debug.Log("AUDO SOURCE ON PLAYER NULL");
+        }
+        else { _audioSource.clip = _laserAudioClip; }
     }
 
     // Update is called once per frame
@@ -95,12 +105,14 @@ public class Player : MonoBehaviour
             if (_isTripleShotEnabled) 
             {
                 Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+                _audioSource.Play();
                 _fireWeapon = false;
                 StartCoroutine(DelayFireRateRoutine());
             }
             else
            Instantiate(_laserPrefab,laserpos,Quaternion.identity);
-          _fireWeapon = false;
+            _audioSource.Play();
+            _fireWeapon = false;
           StartCoroutine(DelayFireRateRoutine());
         }
     } 

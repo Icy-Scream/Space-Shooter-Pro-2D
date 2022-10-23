@@ -17,11 +17,17 @@ public class Spawn_Mananger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
+    }
+    public void StartSpawning() 
+    {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerUp());
     }
+
     IEnumerator SpawnEnemyRoutine()
     {
+        yield return new WaitForSeconds(3);
         while(_stopspawing == false)
         {
             yield return new WaitForSeconds(_spawnTimer);
@@ -35,7 +41,8 @@ public class Spawn_Mananger : MonoBehaviour
 
     IEnumerator SpawnPowerUp() 
     {
-        while(_stopspawing == false) 
+        yield return new WaitForSeconds(3);
+        while (_stopspawing == false) 
         {
             _powerUpTimer = Random.Range(3.0f, 7.0f);
             yield return new WaitForSeconds(_powerUpTimer);

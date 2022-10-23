@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
             
         }
         else Debug.Log("Player Object Destroyed");
+       
         _animation = gameObject.GetComponent<Animator>();
         if(_animation != null) 
         { 
@@ -67,6 +68,7 @@ private void OnTriggerEnter2D(Collider2D other)
     {
         if(_player != null)
         {
+           _enemySpeed = 0;
            _animation.SetTrigger("OnEnemyDeath");
            Destroy(this.gameObject,2.8f);
            _player.Damage();
