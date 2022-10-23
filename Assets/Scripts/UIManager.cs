@@ -11,8 +11,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _gameOverText;
     [SerializeField] private TMP_Text _restartLevel;
     [SerializeField] private GameObject _playerGameObject;
-    private Player _playerScript;
     [SerializeField] private bool _isGameOver;
+    private Player _playerScript;
     void Start()
     {
         _restartLevel.gameObject.SetActive(false);
@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
         }
         if (_isGameOver && Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
+            SceneManager.LoadScene(1); 
         }
 
     }
