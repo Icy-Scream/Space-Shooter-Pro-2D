@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -39,7 +39,8 @@ public class UIManager : MonoBehaviour
 
     public void UpdateLives(int currentLives) 
     {
-        transform.GetChild(1).transform.GetChild(currentLives).GetComponent<SpriteRenderer>().enabled = false;
+        transform.GetChild(1).transform.GetChild(currentLives).GetComponent<Image>().enabled = false;    
+            
     }
 
     public void GameOver()
