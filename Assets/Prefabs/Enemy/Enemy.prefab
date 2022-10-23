@@ -125,6 +125,7 @@ MonoBehaviour:
   _enemySpawn: 6.8
   _randomSpawn: {x: 0, y: 0, z: 0}
   _enemySpeed: 4
+  _explosion: {fileID: 3261050592880432626, guid: 2092d5f78e5c0b347a933f9baaf50adb, type: 3}
 --- !u!61 &7874923383959956957
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _enemySpeed = 4.0f;
     private Player  _player;
     private Animator _animation;
+    [SerializeField] GameObject _explosion;
     private void Start()
     {
         if (GameObject.Find("Player"))
@@ -53,9 +54,10 @@ private void OnTriggerEnter2D(Collider2D other)
             {
                 _enemySpeed = 0;
                 _player.AddScore(Random.Range(0,50));
-                _animation.SetTrigger("OnEnemyDeath");
+                Instantiate(_explosion, transform.position, Quaternion.identity);
                 Destroy(other.gameObject);
-                Destroy(this.gameObject,2.8f);
+                Destroy(this.gameObject);
+                
             }
             else
             {
@@ -68,10 +70,10 @@ private void OnTriggerEnter2D(Collider2D other)
     {
         if(_player != null)
         {
-           _enemySpeed = 0;
-           _animation.SetTrigger("OnEnemyDeath");
-           Destroy(this.gameObject,2.8f);
-           _player.Damage();
+          _enemySpeed = 0;
+          Instantiate(_explosion, transform.position, Quaternion.identity);
+          Destroy(this.gameObject);
+          _player.Damage();
         }
         else
         Debug.Log("COMPONENT MISSING");
