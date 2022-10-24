@@ -27,8 +27,10 @@ public class Player : MonoBehaviour
     
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _laserAudioClip;
+    [SerializeField] private AudioClip _powerUpAudioClip;
    
      private Spawn_Mananger _spawnScript;
+    [SerializeField] GameObject _explosion;
     void Start()
     {
         _spawnScript = GameObject.FindObjectOfType<Spawn_Mananger>();
@@ -105,15 +107,15 @@ public class Player : MonoBehaviour
             if (_isTripleShotEnabled) 
             {
                 Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
-                _audioSource.Play();
+                PlayLaserAudio();
                 _fireWeapon = false;
                 StartCoroutine(DelayFireRateRoutine());
             }
             else
-           Instantiate(_laserPrefab,laserpos,Quaternion.identity);
-            _audioSource.Play();
+             Instantiate(_laserPrefab,laserpos,Quaternion.identity);
+             PlayLaserAudio();
             _fireWeapon = false;
-          StartCoroutine(DelayFireRateRoutine());
+            StartCoroutine(DelayFireRateRoutine());
         }
     } 
 
@@ -142,6 +144,7 @@ public class Player : MonoBehaviour
             {
                 _spawnScript.OnPlayerDeath();
                 _uiManager.GameOver();
+                Instantiate(_explosion, transform.position, Quaternion.identity);
                 Destroy(this.gameObject);
                 _playerHealth = 0;
             }
@@ -158,21 +161,26 @@ public class Player : MonoBehaviour
 
     public void SetTripleShot() 
     {
+        PlayPowerUpAudio();
         _isTripleShotEnabled = true;
         StartCoroutine(TripleShotPowerDownRoutine());
     }
 
     public void SetSpeedBoost() 
     {
+        PlayPowerUpAudio();
         _isSpeedBoostEnabled = true;
         StartCoroutine(SpeedBoostPowerDownRoutine());
+        
     }
 
     public void SetShield() 
     {
+        PlayPowerUpAudio();
         _isShieldsEnabled = true;
         GameObject shield = transform.GetChild(0).gameObject;
         shield.GetComponent<SpriteRenderer>().enabled = true;
+        
     }
     
     public void AddScore(int points) 
@@ -183,6 +191,18 @@ public class Player : MonoBehaviour
     {
         return _score;
     }
+    private void PlayPowerUpAudio() 
+    {
+        _audioSource.clip = _powerUpAudioClip;
+        _audioSource.Play();
+    }
+
+    private void PlayLaserAudio() 
+    {
+        _audioSource.clip = _laserAudioClip;
+        _audioSource.Play();
+    }
+
     IEnumerator TripleShotPowerDownRoutine() 
     {
         yield return new WaitForSeconds(_tripleShotDuration);

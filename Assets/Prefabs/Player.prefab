@@ -169,6 +169,8 @@ MonoBehaviour:
   _score: 0
   _audioSource: {fileID: 0}
   _laserAudioClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  _powerUpAudioClip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
+  _explosion: {fileID: 3261050592880432626, guid: 2092d5f78e5c0b347a933f9baaf50adb, type: 3}
 --- !u!70 &1998629755
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

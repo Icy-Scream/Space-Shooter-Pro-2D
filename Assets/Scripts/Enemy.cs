@@ -10,7 +10,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Vector3 _randomSpawn;
     [SerializeField] private float _enemySpeed = 4.0f;
     private Player  _player;
-    private Animator _animation;
     [SerializeField] GameObject _explosion;
     private void Start()
     {
@@ -20,13 +19,6 @@ public class Enemy : MonoBehaviour
             
         }
         else Debug.Log("Player Object Destroyed");
-       
-        _animation = gameObject.GetComponent<Animator>();
-        if(_animation != null) 
-        { 
-            Debug.Log("Missing Anim");
-        }
-
     }
     void Update()
     {
