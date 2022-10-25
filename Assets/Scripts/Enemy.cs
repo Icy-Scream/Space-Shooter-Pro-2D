@@ -10,7 +10,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Vector3 _randomSpawn;
     [SerializeField] private float _enemySpeed = 4.0f;
     private Player  _player;
+    [SerializeField] private GameObject _laser;
     [SerializeField] GameObject _explosion;
+    [SerializeField] private float _coolDownLaser;
+    [SerializeField] private bool _fireReady;
     private void Start()
     {
         if (GameObject.Find("Player"))
@@ -19,10 +22,16 @@ public class Enemy : MonoBehaviour
             
         }
         else Debug.Log("Player Object Destroyed");
+        _fireReady = true;
     }
     void Update()
     {
-        EnemyMovement();    
+        EnemyMovement();
+        if(_fireReady == true) 
+        { 
+            Shoot();
+        }
+        
     }
 
     private void EnemyMovement()
@@ -35,7 +44,27 @@ public class Enemy : MonoBehaviour
         } 
     }
 
-private void OnTriggerEnter2D(Collider2D other) 
+    private void Shoot() 
+    {
+        Debug.Log("PEW PEW ENEMY");
+        StartCoroutine(LaserParentChangeRoutine());
+        _fireReady = false;
+        StartCoroutine(ShootCoolDownRoutine());
+    }
+
+    IEnumerator LaserParentChangeRoutine()
+    {
+       GameObject laser = Instantiate(_laser, transform.position, Quaternion.identity, this.transform);
+        laser.gameObject.tag = "Enemy_Laser";
+        yield return new WaitForSeconds(0.0001f);;
+        laser.transform.parent = transform.parent;
+    }
+
+
+
+
+
+    private void OnTriggerEnter2D(Collider2D other) 
 {
     
   
@@ -72,5 +101,16 @@ private void OnTriggerEnter2D(Collider2D other)
             
     }
 }
+
+    IEnumerator ShootCoolDownRoutine() 
+    {
+        yield return new WaitForSeconds(_coolDownLaser);
+        _fireReady = true;
+    }
+        
+
+       
+
+
 
 }

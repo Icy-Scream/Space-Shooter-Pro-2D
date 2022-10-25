@@ -5,29 +5,37 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     [SerializeField] private float _laserSpeed;
+    [SerializeField] private int _ID;
     [SerializeField] private float _destroyTimer;
 
     void Start()
     {
         StartCoroutine(DestroyLaserRoutine());
+      if(transform.parent.tag == "Enemy") 
+        {
+            Debug.Log("SHOOTING ENEMY");
+            _ID = 2;
+        }
+        else if(transform.parent.tag == "Player" || transform.parent.tag == "TripleShot") 
+        {  
+            _ID = 1; 
+            Debug.Log("SHOOTING PLAYER"); 
+        }
     }
 
     void Update()
     {
-        LaserTranslate();
+        LaserTranslate(_ID);
     }
 
-    private void LaserTranslate()
+    private void LaserTranslate(int GameObjectID)
     {
-        transform.Translate(Vector3.up*_laserSpeed*Time.deltaTime);
+        if (GameObjectID == 1) { transform.Translate(Vector3.up * _laserSpeed * Time.deltaTime); }
+        else if(GameObjectID == 2) { transform.Translate(Vector3.down * _laserSpeed * Time.deltaTime); }
     }
     IEnumerator DestroyLaserRoutine()
     {
         yield return new WaitForSeconds(_destroyTimer);
-        if(transform.parent != null)
-        {
-            Destroy(transform.parent.gameObject);
-        }
         Destroy(this.gameObject);
     }
 }

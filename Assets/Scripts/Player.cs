@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Player : MonoBehaviour
 {
@@ -101,23 +100,49 @@ public class Player : MonoBehaviour
     }
     private void Shoot()
     {
-        Vector3 laserpos = new Vector3(transform.position.x,transform.position.y + 0.8f, transform.position.z);
         if (Input.GetKeyDown(KeyCode.Space) && _fireWeapon)
         {
-            if (_isTripleShotEnabled) 
+            if (_isTripleShotEnabled)
             {
-                Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+                StartCoroutine(LaserParentChangeRoutine());
                 PlayLaserAudio();
                 _fireWeapon = false;
                 StartCoroutine(DelayFireRateRoutine());
             }
-            else
-             Instantiate(_laserPrefab,laserpos,Quaternion.identity);
-             PlayLaserAudio();
-            _fireWeapon = false;
-            StartCoroutine(DelayFireRateRoutine());
+            else 
+            {
+               StartCoroutine(LaserParentChangeRoutine());
+;              PlayLaserAudio();
+              _fireWeapon = false;
+              StartCoroutine(DelayFireRateRoutine());
+            }
         }
     } 
+            
+            
+    IEnumerator LaserParentChangeRoutine()
+    {
+        Vector3 laserpos = new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z);
+        if (_isTripleShotEnabled)
+        {
+            GameObject tripleShot = Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity, this.transform);
+            yield return new WaitForSeconds(0.0001f);
+            tripleShot.transform.parent = transform.parent;
+           for(int i = 0; i < tripleShot.transform.childCount; i++) 
+            { 
+                tripleShot.transform.GetChild(i).tag = "Laser";
+            }
+            Destroy(tripleShot, 3);
+        }
+        else
+        {
+            GameObject laser = Instantiate(_laserPrefab, laserpos, Quaternion.identity, this.transform);
+            yield return new WaitForSeconds(0.0001f);
+            laser.gameObject.tag = "Laser";
+            laser.transform.parent = transform.parent;
+        }
+
+    }       
 
     IEnumerator DelayFireRateRoutine()
     {
@@ -148,7 +173,7 @@ public class Player : MonoBehaviour
                 Destroy(this.gameObject);
                 _playerHealth = 0;
             }
-            else _playerHealth = 100;
+            else _playerHealth = 20;
         }
         
     }
@@ -213,6 +238,15 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(_speedBoostDuration);
         _isSpeedBoostEnabled = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Enemy_Laser") 
+        {
+            Damage();
+            Destroy(collision.gameObject);
+        }
     }
 
 }
