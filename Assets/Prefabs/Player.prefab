@@ -161,12 +161,12 @@ MonoBehaviour:
   _score: 0
   _lives: 3
   _fireWeapon: 0
-  _fireRate: 0.23
+  _fireRate: 0.5
+  _ammoCount: 15
+  _totalAmmo: 15
   _tripleShotPrefab: {fileID: 6182582455045883186, guid: 8ab592361f55e6b47948788a09462e01, type: 3}
-  _tripleShotDuration: 5
-  _speedBoost: 3
-  _speedBoostDuration: 10
   _isShieldsEnabled: 0
+  _shieldLevel: 0
   _audioSource: {fileID: 0}
   _laserAudioClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _powerUpAudioClip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}

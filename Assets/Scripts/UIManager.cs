@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _restartLevel;
     [SerializeField] private GameObject _playerGameObject;
     [SerializeField] private bool _isGameOver;
+    [SerializeField] private TMP_Text _ammoText;
     private Player _playerScript;
    
     void Start()
@@ -29,6 +30,11 @@ public class UIManager : MonoBehaviour
         if(_playerGameObject!= null)
         {
             _scoreText.text = "Score: " + _playerScript.GetScore();
+           if(_playerScript.GetCurrentAmmo() == 0) 
+            {
+              _ammoText.text = "Ammo: " + _playerScript.GetCurrentAmmo() + "/" + _playerScript.GetTotalAmmo() + " 'R' RELOAD";
+            }else
+            _ammoText.text =  "Ammo: " + _playerScript.GetCurrentAmmo() +"/"+ _playerScript.GetTotalAmmo();
         }
         if (_isGameOver && Input.GetKeyDown(KeyCode.R))
         {

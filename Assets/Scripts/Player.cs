@@ -7,15 +7,18 @@ public class Player : MonoBehaviour
 {
      [SerializeField] private GameObject _laserPrefab;
      [SerializeField] private float _playerSpeed;
-     [SerializeField] private float _playerHealth = 100f;
-     [SerializeField] private int _score = 0;
-     [SerializeField] private int _lives = 3;
+     [SerializeField] private float _playerHealth;
+                      private int _score = 0;
+                      private int _lives = 3;
    
-      private bool _fireWeapon;
-      private float _fireRate;
+    [SerializeField] private bool _fireWeapon;
+    [SerializeField] private float _fireRate;
+    [SerializeField] private int _ammoCount = 15;
+    [SerializeField] private int _totalAmmo = 15;
+     
      
      private bool _isTripleShotEnabled = false;
-     private GameObject _tripleShotPrefab;
+    [SerializeField] private GameObject _tripleShotPrefab;
      private float _tripleShotDuration = 5.0f;
 
      private bool _isSpeedBoostEnabled = false;
@@ -122,16 +125,27 @@ public class Player : MonoBehaviour
             if (_isTripleShotEnabled)
             {
                 StartCoroutine(LaserParentChangeRoutine());
-                PlayLaserAudio();
                 _fireWeapon = false;
+                PlayLaserAudio();
                 StartCoroutine(DelayFireRateRoutine());
+                _ammoCount--;
             }
             else 
             {
                StartCoroutine(LaserParentChangeRoutine());
+               _fireWeapon = false;
 ;              PlayLaserAudio();
-              _fireWeapon = false;
-              StartCoroutine(DelayFireRateRoutine());
+               StartCoroutine(DelayFireRateRoutine());
+               _ammoCount--;
+            }
+        }
+       else if (_ammoCount == 0) 
+        {
+            _fireWeapon = false;
+            if (Input.GetKeyDown(KeyCode.R)) 
+            {
+                _ammoCount = _totalAmmo;
+                _fireWeapon = true;
             }
         }
     } 
@@ -263,6 +277,20 @@ public class Player : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
+
+    public int GetCurrentAmmo() 
+    {
+        return _ammoCount;
+    }
+    public void SetCurrentAmmo() 
+    {
+        _ammoCount = _totalAmmo;
+    }
+    public int GetTotalAmmo() 
+    {
+        return _totalAmmo;
+    }
+
     IEnumerator LaserParentChangeRoutine()
     {
         Vector3 _laserpos = new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z);
@@ -284,8 +312,8 @@ public class Player : MonoBehaviour
             laser.gameObject.tag = "Laser";
             laser.transform.parent = transform.parent;
         }
-
     }       
+
     IEnumerator DelayFireRateRoutine()
     {
         yield return new WaitForSeconds(_fireRate);

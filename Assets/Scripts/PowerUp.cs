@@ -6,7 +6,6 @@ public class PowerUp : MonoBehaviour
 {
     [SerializeField] private float _speed = 3.0f;
     [SerializeField] private int _powerUpID;
-    [SerializeField] private int _shieldLevel;
     void Update()
     {
         PowerUpMove();
@@ -41,6 +40,9 @@ public class PowerUp : MonoBehaviour
                         break;
                     case 2:
                         player.SetShield();
+                        break;
+                    case 3:
+                        player.SetCurrentAmmo();
                         break;
                     default:
                         Debug.Log("Default Value");
