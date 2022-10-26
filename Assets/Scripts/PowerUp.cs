@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PowerUp : MonoBehaviour
 {
@@ -23,11 +22,11 @@ public class PowerUp : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
-          Player player =  collision.GetComponent<Player>();
+          Player player =  other.GetComponent<Player>();
             
             if (player != null) 
             {

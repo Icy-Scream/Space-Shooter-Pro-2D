@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-     [SerializeField] private float _playerSpeed = 5.0f;
      [SerializeField] private GameObject _laserPrefab;
+     [SerializeField] private float _playerSpeed = 5.0f;
+     [SerializeField] private float _playerHealth = 100f;
+     [SerializeField] private int _score = 0;
+     [SerializeField] private int _lives = 3;
+   
      [SerializeField] private bool _fireWeapon;
      [SerializeField] private float _fireRate;
-     [SerializeField] private float _playerHealth = 100f;
-     [SerializeField] private int _lives = 3;
      
      private bool _isTripleShotEnabled = false;
      [SerializeField] private GameObject _tripleShotPrefab;
@@ -20,16 +22,16 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speedBoost = 5.0f;
     [SerializeField] private float _speedBoostDuration = 3.0f;
     [SerializeField] private bool _isShieldsEnabled = false;
-    [SerializeField] private int _score = 0;
      
-    private UIManager _uiManager;
     
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _laserAudioClip;
     [SerializeField] private AudioClip _powerUpAudioClip;
    
-     private Spawn_Mananger _spawnScript;
+    private UIManager _uiManager;
+    private Spawn_Mananger _spawnScript;
     [SerializeField] GameObject _explosion;
+   
     void Start()
     {
         _spawnScript = GameObject.FindObjectOfType<Spawn_Mananger>();
@@ -57,7 +59,6 @@ public class Player : MonoBehaviour
         else { _audioSource.clip = _laserAudioClip; }
     }
 
-    // Update is called once per frame
     void Update()
     {
         PlayerBoundaries();
@@ -118,53 +119,25 @@ public class Player : MonoBehaviour
             }
         }
     } 
-            
-            
-    IEnumerator LaserParentChangeRoutine()
-    {
-        Vector3 laserpos = new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z);
-        if (_isTripleShotEnabled)
-        {
-            GameObject tripleShot = Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity, this.transform);
-            yield return new WaitForSeconds(0.0001f);
-            tripleShot.transform.parent = transform.parent;
-           for(int i = 0; i < tripleShot.transform.childCount; i++) 
-            { 
-                tripleShot.transform.GetChild(i).tag = "Laser";
-            }
-            Destroy(tripleShot, 3);
-        }
-        else
-        {
-            GameObject laser = Instantiate(_laserPrefab, laserpos, Quaternion.identity, this.transform);
-            yield return new WaitForSeconds(0.0001f);
-            laser.gameObject.tag = "Laser";
-            laser.transform.parent = transform.parent;
-        }
-
-    }       
-
-    IEnumerator DelayFireRateRoutine()
-    {
-        yield return new WaitForSeconds(_fireRate);
-        _fireWeapon = true;
-    }
-
     public void Damage()
     {
         if (_isShieldsEnabled) 
         {
             _isShieldsEnabled = false;
-            GameObject shield = transform.GetChild(0).gameObject;
-            shield.GetComponent<SpriteRenderer>().enabled = false;
+            GameObject _shield = transform.GetChild(0).gameObject;
+            _shield.GetComponent<SpriteRenderer>().enabled = false;
             return;    
         }
+        
         _playerHealth += -20;
         StartCoroutine(FlashRedCourtine());
         
         if (_playerHealth < 1)
-        {   _lives--;
+        {  
+            _lives--;
+            
             _uiManager.UpdateLives(_lives);
+            
             if(_lives < 1)
             {
                 _spawnScript.OnPlayerDeath();
@@ -177,20 +150,12 @@ public class Player : MonoBehaviour
         }
         
     }
-    IEnumerator FlashRedCourtine()
-    {
-        this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-        yield return new WaitForSeconds(0.3f);
-        this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-    }
-
     public void SetTripleShot() 
     {
         PlayPowerUpAudio();
         _isTripleShotEnabled = true;
         StartCoroutine(TripleShotPowerDownRoutine());
     }
-
     public void SetSpeedBoost() 
     {
         PlayPowerUpAudio();
@@ -198,7 +163,6 @@ public class Player : MonoBehaviour
         StartCoroutine(SpeedBoostPowerDownRoutine());
         
     }
-
     public void SetShield() 
     {
         PlayPowerUpAudio();
@@ -207,7 +171,6 @@ public class Player : MonoBehaviour
         shield.GetComponent<SpriteRenderer>().enabled = true;
         
     }
-    
     public void AddScore(int points) 
     {
         _score += points;
@@ -221,25 +184,11 @@ public class Player : MonoBehaviour
         _audioSource.clip = _powerUpAudioClip;
         _audioSource.Play();
     }
-
     private void PlayLaserAudio() 
     {
         _audioSource.clip = _laserAudioClip;
         _audioSource.Play();
     }
-
-    IEnumerator TripleShotPowerDownRoutine() 
-    {
-        yield return new WaitForSeconds(_tripleShotDuration);
-        _isTripleShotEnabled = false;
-    }
-
-    IEnumerator SpeedBoostPowerDownRoutine() 
-    {
-        yield return new WaitForSeconds(_speedBoostDuration);
-        _isSpeedBoostEnabled = false;
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Enemy_Laser") 
@@ -248,5 +197,60 @@ public class Player : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
+    IEnumerator LaserParentChangeRoutine()
+    {
+        Vector3 _laserpos = new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z);
+        if (_isTripleShotEnabled)
+        {
+            GameObject tripleShot = Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity, this.transform);
+            yield return new WaitForSeconds(0.0001f);
+            tripleShot.transform.parent = transform.parent;
+           for(int i = 0; i < tripleShot.transform.childCount; i++) 
+            { 
+                tripleShot.transform.GetChild(i).tag = "Laser";
+            }
+            Destroy(tripleShot, 3);
+        }
+        else
+        {
+            GameObject laser = Instantiate(_laserPrefab, _laserpos, Quaternion.identity, this.transform);
+            yield return new WaitForSeconds(0.0001f);
+            laser.gameObject.tag = "Laser";
+            laser.transform.parent = transform.parent;
+        }
 
+    }       
+    IEnumerator DelayFireRateRoutine()
+    {
+        yield return new WaitForSeconds(_fireRate);
+        _fireWeapon = true;
+    }
+    IEnumerator FlashRedCourtine()
+    {
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        yield return new WaitForSeconds(0.3f);
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
+    IEnumerator TripleShotPowerDownRoutine() 
+    {
+        yield return new WaitForSeconds(_tripleShotDuration);
+        _isTripleShotEnabled = false;
+    }
+    IEnumerator SpeedBoostPowerDownRoutine() 
+    {
+        yield return new WaitForSeconds(_speedBoostDuration);
+        _isSpeedBoostEnabled = false;
+    }
 }
+            
+            
+
+
+
+
+    
+
+
+
+
+

@@ -6,7 +6,7 @@ public class Explosion : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _explosionClip;
-    // Start is called before the first frame update
+    
     void Start()
     {
         _audioSource = GetComponent<AudioSource>();

@@ -9,11 +9,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _enemySpawn = 6.8f;
     [SerializeField] private Vector3 _randomSpawn;
     [SerializeField] private float _enemySpeed = 4.0f;
-    private Player  _player;
+  
+    [SerializeField] private GameObject _explosion;
     [SerializeField] private GameObject _laser;
-    [SerializeField] GameObject _explosion;
     [SerializeField] private float _coolDownLaser;
     [SerializeField] private bool _fireReady;
+   
+    private Player  _player;
+    
     private void Start()
     {
         if (GameObject.Find("Player"))
@@ -22,11 +25,13 @@ public class Enemy : MonoBehaviour
             
         }
         else Debug.Log("Player Object Destroyed");
+        
         _fireReady = true;
     }
     void Update()
     {
         EnemyMovement();
+        
         if(_fireReady == true) 
         { 
             Shoot();
@@ -36,7 +41,7 @@ public class Enemy : MonoBehaviour
 
     private void EnemyMovement()
     {
-        transform.Translate((_enemyDirection) *_enemySpeed * Time.deltaTime);
+        transform.Translate((_enemyDirection) * _enemySpeed * Time.deltaTime);
         if(transform.position.y < -6.5f )
         {
             _randomSpawn = new Vector3(Random.Range(-11.18f,11.18f),_enemySpawn,0);
@@ -65,10 +70,8 @@ public class Enemy : MonoBehaviour
 
 
     private void OnTriggerEnter2D(Collider2D other) 
-{
-    
-  
-    
+    {
+
     if(other.gameObject.tag == "Laser")
     {
         if(_player != null)

@@ -13,12 +13,6 @@ public class Spawn_Mananger : MonoBehaviour
     
     private Vector3 _spawnPOS;
 
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-    }
     public void StartSpawning() 
     {
         StartCoroutine(SpawnEnemyRoutine());

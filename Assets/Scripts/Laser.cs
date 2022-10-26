@@ -11,10 +11,11 @@ public class Laser : MonoBehaviour
     void Start()
     {
         StartCoroutine(DestroyLaserRoutine());
-      if(transform.parent.tag == "Enemy") 
+      
+       if(transform.parent.tag == "Enemy") 
         {
-            Debug.Log("SHOOTING ENEMY");
             _ID = 2;
+            Debug.Log("SHOOTING ENEMY");
         }
         else if(transform.parent.tag == "Player" || transform.parent.tag == "TripleShot") 
         {  
@@ -30,8 +31,14 @@ public class Laser : MonoBehaviour
 
     private void LaserTranslate(int GameObjectID)
     {
-        if (GameObjectID == 1) { transform.Translate(Vector3.up * _laserSpeed * Time.deltaTime); }
-        else if(GameObjectID == 2) { transform.Translate(Vector3.down * _laserSpeed * Time.deltaTime); }
+        if (GameObjectID == 1) 
+        { 
+            transform.Translate(Vector3.up * _laserSpeed * Time.deltaTime); 
+        }
+        else if(GameObjectID == 2) 
+        { 
+            transform.Translate(Vector3.down * _laserSpeed * Time.deltaTime); 
+        }
     }
     IEnumerator DestroyLaserRoutine()
     {

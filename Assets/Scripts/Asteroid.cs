@@ -8,7 +8,7 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private float _rotationSpeed;
     [SerializeField] GameObject _explosion;
     private Spawn_Mananger _spawnMananger;
-    // Start is called before the first frame update
+
     void Start()
     {
         _spawnMananger = GameObject.Find("Spawn_Manager").GetComponent<Spawn_Mananger>();

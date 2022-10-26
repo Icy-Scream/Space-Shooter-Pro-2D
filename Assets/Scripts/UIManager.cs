@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _playerGameObject;
     [SerializeField] private bool _isGameOver;
     private Player _playerScript;
+   
     void Start()
     {
         _restartLevel.gameObject.SetActive(false);
