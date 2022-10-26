@@ -285,6 +285,10 @@ public class Player : MonoBehaviour
     public void SetCurrentAmmo() 
     {
         _ammoCount = _totalAmmo;
+        if (_fireWeapon == false)
+        {
+            _fireWeapon = true;
+        }
     }
     public int GetTotalAmmo() 
     {

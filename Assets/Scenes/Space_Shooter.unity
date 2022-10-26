@@ -779,6 +779,7 @@ MonoBehaviour:
   - {fileID: 8574715538676237418, guid: 295838eb66b622b4a91960b9145a4e01, type: 3}
   - {fileID: 2162877809248072811, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
   - {fileID: 6521614645825110218, guid: b1d9b045839a4054f83be50c97b1ce3d, type: 3}
+  - {fileID: 5882990403521378440, guid: 83c6752d4b3339948b1e2cf52f7d168f, type: 3}
   _spawnTimer: 3
   _powerUpTimer: 1
   _stopspawing: 0

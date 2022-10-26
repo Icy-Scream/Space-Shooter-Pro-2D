@@ -41,7 +41,7 @@ public class Spawn_Mananger : MonoBehaviour
             _powerUpTimer = Random.Range(3.0f, 7.0f);
             yield return new WaitForSeconds(_powerUpTimer);
             _spawnPOS = new Vector3(Random.Range(-10.0f, 10.0f), 6.8f, 0);
-            Instantiate(_powerUps[Random.Range(0,3)],_spawnPOS, Quaternion.identity);
+            Instantiate(_powerUps[Random.Range(0, _powerUps.Length)],_spawnPOS, Quaternion.identity);
         }
     }
     public void OnPlayerDeath()
