@@ -11,19 +11,20 @@ public class Player : MonoBehaviour
      [SerializeField] private int _score = 0;
      [SerializeField] private int _lives = 3;
    
-     [SerializeField] private bool _fireWeapon;
-     [SerializeField] private float _fireRate;
+      private bool _fireWeapon;
+      private float _fireRate;
      
      private bool _isTripleShotEnabled = false;
-     [SerializeField] private GameObject _tripleShotPrefab;
-     [SerializeField] private float _tripleShotDuration = 5.0f;
+     private GameObject _tripleShotPrefab;
+     private float _tripleShotDuration = 5.0f;
 
-    private bool _isSpeedBoostEnabled = false;
-    [SerializeField] private float _speedBoost = 5.0f;
-    [SerializeField] private float _speedBoostDuration = 3.0f;
+     private bool _isSpeedBoostEnabled = false;
+     private float _speedBoost = 5.0f;
+     private float _speedBoostDuration = 3.0f;
+
     [SerializeField] private bool _isShieldsEnabled = false;
-     
-    
+    [SerializeField] private int _shieldLevel;
+      
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _laserAudioClip;
     [SerializeField] private AudioClip _powerUpAudioClip;
@@ -138,12 +139,29 @@ public class Player : MonoBehaviour
     {
         if (_isShieldsEnabled) 
         {
-            _isShieldsEnabled = false;
             GameObject _shield = transform.GetChild(0).gameObject;
-            _shield.GetComponent<SpriteRenderer>().enabled = false;
-            return;    
-        }
-        
+            switch (_shieldLevel) 
+            {
+                case 1:
+                    _shield.GetComponent<SpriteRenderer>().enabled = false;
+                    _shieldLevel--;
+                    _isShieldsEnabled = false;
+                    return;
+                  
+                case 2:
+                    _shield.GetComponent<SpriteRenderer>().color = Color.white;
+                    _shieldLevel--;
+                    return;
+                   
+                case 3:
+                    _shield.GetComponent<SpriteRenderer>().color = Color.red;
+                    _shieldLevel--;
+                    return;
+           
+                default:
+                    break;
+            }
+        }   
         _playerHealth += -20;
         StartCoroutine(FlashRedCourtine());
         
@@ -180,11 +198,44 @@ public class Player : MonoBehaviour
     }
     public void SetShield() 
     {
-        PlayPowerUpAudio();
-        _isShieldsEnabled = true;
         GameObject shield = transform.GetChild(0).gameObject;
-        shield.GetComponent<SpriteRenderer>().enabled = true;
+        _isShieldsEnabled = true;
         
+        switch (_shieldLevel) 
+        {
+            case 0:
+                PlayPowerUpAudio();
+                _isShieldsEnabled = true;
+                shield.GetComponent<SpriteRenderer>().enabled = true;
+                _shieldLevel++;
+                break;
+            
+            case 1:
+                PlayPowerUpAudio();
+                _isShieldsEnabled = true;
+                shield.GetComponent<SpriteRenderer>().color = Color.red;
+                _shieldLevel++;
+                break;
+
+            case 2:
+                PlayPowerUpAudio();
+                _isShieldsEnabled = true;
+                shield.GetComponent<SpriteRenderer>().color = Color.yellow;
+                _shieldLevel++;
+                break;
+          default:
+               if(IsShieldsOn() == false) 
+                { 
+                _shieldLevel = 0;
+                }
+                else { Debug.Log("MAX SHIELDS"); return; }
+                break;
+        }
+               
+    }
+    public bool IsShieldsOn()
+    {
+       return _isShieldsEnabled;
     }
     public void AddScore(int points) 
     {
