@@ -6,7 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
      [SerializeField] private GameObject _laserPrefab;
-     [SerializeField] private float _playerSpeed = 5.0f;
+     [SerializeField] private float _playerSpeed;
      [SerializeField] private float _playerHealth = 100f;
      [SerializeField] private int _score = 0;
      [SerializeField] private int _lives = 3;
@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         PlayerBoundaries();
-        playeraxismove();
+        PlayerAxisMove();
         Shoot();
     }
     
@@ -86,18 +86,33 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(11.5f, transform.position.y, 0);
         }
     }
-    private void playeraxismove()
+    private void PlayerAxisMove()
     {
         float HorizontalInput = Input.GetAxis("Horizontal");
         float VerticalInput = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(HorizontalInput,VerticalInput,0);
+        Thruster();
         if(_isSpeedBoostEnabled == true)
         {
             transform.Translate(direction * (_playerSpeed + _speedBoost) * Time.deltaTime);
         }
-        else
-            transform.Translate(direction * _playerSpeed * Time.deltaTime);
 
+        else 
+        { 
+            transform.Translate(direction * _playerSpeed * Time.deltaTime);
+        }
+        
+
+    }
+
+    private void Thruster() 
+    {
+      if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _playerSpeed = 10;
+            Debug.Log("THRUSTER " + _playerSpeed);
+        }
+        else { _playerSpeed = 8; }
     }
     private void Shoot()
     {
