@@ -72,7 +72,7 @@ public class Enemy : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) 
     {
 
-    if(other.gameObject.tag == "Laser")
+    if(other.gameObject.tag == "Laser" || other.gameObject.tag == "Rocket")
     {
         if(_player != null)
             {

@@ -9,6 +9,7 @@ TagManager:
   - PowerUp
   - TripleShot
   - Enemy_Laser
+  - Rocket
   layers:
   - Default
   - TransparentFX

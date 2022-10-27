@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
      [SerializeField] private float _playerHealth;
                       private int _score = 0;
      [SerializeField] private int _lives = 3;
+     
+     [SerializeField] private GameObject _rocket;
+     [SerializeField] bool _setRockets = false;
    
     [SerializeField] private bool _fireWeapon;
     [SerializeField] private float _fireRate;
@@ -31,7 +34,10 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _laserAudioClip;
     [SerializeField] private AudioClip _powerUpAudioClip;
-   
+    [SerializeField] private AudioClip _lowAmmoClip;
+    [SerializeField] private AudioClip _collectLivesClip;
+    [SerializeField] private AudioClip _ammoReload;
+
     private UIManager _uiManager;
     private Spawn_Mananger _spawnScript;
     [SerializeField] GameObject _explosion;
@@ -68,6 +74,7 @@ public class Player : MonoBehaviour
         PlayerBoundaries();
         PlayerAxisMove();
         Shoot();
+        ShootRocket();
     }
     
     private void PlayerBoundaries()
@@ -118,6 +125,16 @@ public class Player : MonoBehaviour
         }
         else { _playerSpeed = 8; }
     }
+
+    private void ShootRocket() 
+    {
+        if (Input.GetKeyDown(KeyCode.Q)) 
+        { 
+            Instantiate(_rocket, transform.position, Quaternion.identity);
+        }
+        
+    }
+
     private void Shoot()
     {
         if (Input.GetKeyDown(KeyCode.Space) && _fireWeapon)
@@ -129,6 +146,7 @@ public class Player : MonoBehaviour
                 PlayLaserAudio();
                 StartCoroutine(DelayFireRateRoutine());
                 _ammoCount--;
+                LowAmmoAudio();
             }
             else 
             {
@@ -137,18 +155,28 @@ public class Player : MonoBehaviour
 ;              PlayLaserAudio();
                StartCoroutine(DelayFireRateRoutine());
                _ammoCount--;
+                LowAmmoAudio();
             }
         }
        else if (_ammoCount == 0) 
         {
+            
             _fireWeapon = false;
             if (Input.GetKeyDown(KeyCode.R)) 
             {
+                SwitchAudioClip(_ammoReload);
                 _ammoCount = _totalAmmo;
                 _fireWeapon = true;
             }
         }
-    } 
+    }
+    private void LowAmmoAudio()
+    {
+        if (_ammoCount == 0) 
+        {
+            SwitchAudioClip(_lowAmmoClip);
+        }
+    }
     public void Damage()
     {
         if (_isShieldsEnabled) 
@@ -199,13 +227,13 @@ public class Player : MonoBehaviour
     }
     public void SetTripleShot() 
     {
-        PlayPowerUpAudio();
+        SwitchAudioClip(_powerUpAudioClip);
         _isTripleShotEnabled = true;
         StartCoroutine(TripleShotPowerDownRoutine());
     }
     public void SetSpeedBoost() 
     {
-        PlayPowerUpAudio();
+        SwitchAudioClip(_powerUpAudioClip);
         _isSpeedBoostEnabled = true;
         StartCoroutine(SpeedBoostPowerDownRoutine());
         
@@ -218,21 +246,21 @@ public class Player : MonoBehaviour
         switch (_shieldLevel) 
         {
             case 0:
-                PlayPowerUpAudio();
+                SwitchAudioClip(_powerUpAudioClip);
                 _isShieldsEnabled = true;
                 shield.GetComponent<SpriteRenderer>().enabled = true;
                 _shieldLevel++;
                 break;
             
             case 1:
-                PlayPowerUpAudio();
+                SwitchAudioClip(_powerUpAudioClip);
                 _isShieldsEnabled = true;
                 shield.GetComponent<SpriteRenderer>().color = Color.red;
                 _shieldLevel++;
                 break;
 
             case 2:
-                PlayPowerUpAudio();
+                SwitchAudioClip(_powerUpAudioClip);
                 _isShieldsEnabled = true;
                 shield.GetComponent<SpriteRenderer>().color = Color.yellow;
                 _shieldLevel++;
@@ -259,11 +287,7 @@ public class Player : MonoBehaviour
     {
         return _score;
     }
-    private void PlayPowerUpAudio() 
-    {
-        _audioSource.clip = _powerUpAudioClip;
-        _audioSource.Play();
-    }
+
     private void PlayLaserAudio() 
     {
         _audioSource.clip = _laserAudioClip;
@@ -285,6 +309,7 @@ public class Player : MonoBehaviour
     public void SetCurrentAmmo() 
     {
         _ammoCount = _totalAmmo;
+       SwitchAudioClip(_ammoReload);
         if (_fireWeapon == false)
         {
             _fireWeapon = true;
@@ -305,6 +330,8 @@ public class Player : MonoBehaviour
         else
         _lives++;
         _uiManager.AddLives(_lives);
+        SwitchAudioClip(_collectLivesClip);
+        StartCoroutine(FlashGreenCourtine());
     }
 
     IEnumerator LaserParentChangeRoutine()
@@ -341,6 +368,12 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
+    IEnumerator FlashGreenCourtine()
+    {
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+        yield return new WaitForSeconds(0.3f);
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
     IEnumerator TripleShotPowerDownRoutine() 
     {
         yield return new WaitForSeconds(_tripleShotDuration);
@@ -350,6 +383,11 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(_speedBoostDuration);
         _isSpeedBoostEnabled = false;
+    }
+    private void SwitchAudioClip(AudioClip audioclip) 
+    {
+        _audioSource.clip = audioclip;
+        _audioSource.Play();
     }
 }
             
