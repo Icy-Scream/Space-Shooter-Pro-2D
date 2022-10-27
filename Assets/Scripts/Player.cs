@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -74,9 +75,14 @@ public class Player : MonoBehaviour
         PlayerBoundaries();
         PlayerAxisMove();
         Shoot();
-        ShootRocket();
+       //ShootRocket();
     }
     
+    public void SetRocket() 
+    {
+        _setRockets = true;
+        StartCoroutine(RocketPowerDownRoutine());
+    }
     private void PlayerBoundaries()
     {
         if(transform.position.y >= 0)
@@ -148,8 +154,14 @@ public class Player : MonoBehaviour
                 _ammoCount--;
                 LowAmmoAudio();
             }
-            else 
+            else if(_setRockets)
             {
+                Instantiate(_rocket, transform.position, Quaternion.identity);
+                _fireWeapon = false;
+                StartCoroutine(DelayFireRateRoutine());
+            }
+            else 
+            { 
                StartCoroutine(LaserParentChangeRoutine());
                _fireWeapon = false;
 ;              PlayLaserAudio();
@@ -157,6 +169,9 @@ public class Player : MonoBehaviour
                _ammoCount--;
                 LowAmmoAudio();
             }
+            
+            
+            
         }
        else if (_ammoCount == 0) 
         {
@@ -379,6 +394,13 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(_tripleShotDuration);
         _isTripleShotEnabled = false;
     }
+
+    IEnumerator RocketPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(5f);
+        _setRockets = false;
+    }
+
     IEnumerator SpeedBoostPowerDownRoutine() 
     {
         yield return new WaitForSeconds(_speedBoostDuration);
