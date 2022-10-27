@@ -3,14 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Android;
 
 public class Player : MonoBehaviour
 {
      [SerializeField] private GameObject _laserPrefab;
+     [SerializeField] GameObject _explosion;
+     
      [SerializeField] private float _playerSpeed;
      [SerializeField] private float _playerHealth;
-                      private int _score = 0;
      [SerializeField] private int _lives = 3;
+                      private int _score = 0;
      
      [SerializeField] private GameObject _rocket;
      [SerializeField] bool _setRockets = false;
@@ -21,13 +24,13 @@ public class Player : MonoBehaviour
     [SerializeField] private int _totalAmmo = 15;
      
      
-     private bool _isTripleShotEnabled = false;
     [SerializeField] private GameObject _tripleShotPrefab;
-     private float _tripleShotDuration = 5.0f;
+    private bool _isTripleShotEnabled = false;
+    private float _tripleShotDuration = 5.0f;
 
-     private bool _isSpeedBoostEnabled = false;
-     private float _speedBoost = 5.0f;
-     private float _speedBoostDuration = 3.0f;
+    private bool _isSpeedBoostEnabled = false;
+    private float _speedBoost = 5.0f;
+    private float _speedBoostDuration = 3.0f;
 
     [SerializeField] private bool _isShieldsEnabled = false;
     [SerializeField] private int _shieldLevel;
@@ -38,17 +41,25 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioClip _lowAmmoClip;
     [SerializeField] private AudioClip _collectLivesClip;
     [SerializeField] private AudioClip _ammoReload;
+    
+    [SerializeField] private float _gas = 10f;
+    [SerializeField] private bool _setthrust = true;
+    [SerializeField] private bool refill;
+    [SerializeField] private bool keyup;
+
 
     private UIManager _uiManager;
     private Spawn_Mananger _spawnScript;
-    [SerializeField] GameObject _explosion;
-   
+    
+    private Coroutine _stopKeyup;
+
     void Start()
     {
         _spawnScript = GameObject.FindObjectOfType<Spawn_Mananger>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
-        
+        _uiManager.ThrusterSlider(gas);
+
         transform.position = new Vector3(0,-5,0);
        
         _fireWeapon = true;
@@ -75,7 +86,10 @@ public class Player : MonoBehaviour
         PlayerBoundaries();
         PlayerAxisMove();
         Shoot();
-       //ShootRocket();
+        Thruster();
+  
+
+        //ShootRocket();
     }
     
     public void SetRocket() 
@@ -108,7 +122,6 @@ public class Player : MonoBehaviour
         float HorizontalInput = Input.GetAxis("Horizontal");
         float VerticalInput = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(HorizontalInput,VerticalInput,0);
-        Thruster();
         if(_isSpeedBoostEnabled == true)
         {
             transform.Translate(direction * (_playerSpeed + _speedBoost) * Time.deltaTime);
@@ -121,17 +134,48 @@ public class Player : MonoBehaviour
         
 
     }
-
+    
     private void Thruster() 
     {
-      if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && _setthrust)
         {
+             refill = true;
+            _setthrust = false;
             _playerSpeed = 10;
+            stopKeyup = StartCoroutine(ThrusterCoolDown());
             Debug.Log("THRUSTER " + _playerSpeed);
         }
-        else { _playerSpeed = 8; }
+           
+        else if( (Input.GetKeyUp(KeyCode.LeftShift) && refill ) || (gas < 1 && refill)) 
+        { 
+          refill = false;  
+         _playerSpeed = 8;
+         StopCoroutine(stopKeyup);
+         StartCoroutine(ThrusterRoutine()); 
+        }
     }
-
+    IEnumerator ThrusterCoolDown() 
+    {
+        refill = true;
+        while(gas >= 1 || keyup) 
+        {
+         
+         yield return new WaitForSeconds(0.2f);
+         gas-= 0.2f;
+         _uiManager.ThrusterSlider(gas);
+        }
+    }
+    IEnumerator ThrusterRoutine() 
+    {
+        while (gas < 10) 
+        { 
+          yield return new WaitForSeconds(0.2f);
+          gas += 0.2f;
+          _uiManager.ThrusterSlider(gas);
+        }
+          if (gas == 10) { _setthrust = true; }
+        
+    }
     private void ShootRocket() 
     {
         if (Input.GetKeyDown(KeyCode.Q)) 

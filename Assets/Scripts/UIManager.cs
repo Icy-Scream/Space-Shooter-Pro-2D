@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _playerGameObject;
     [SerializeField] private bool _isGameOver;
     [SerializeField] private TMP_Text _ammoText;
+    [SerializeField] private Slider _slider;
     private Player _playerScript;
    
     void Start()
@@ -64,11 +65,14 @@ public class UIManager : MonoBehaviour
         StartCoroutine(GameOverFlickerRoutine());
  
     }
-   
-      
-        
-        
- 
+
+
+    public void ThrusterSlider(float thrust)
+    {
+        _slider.value = thrust;
+    }
+
+
     IEnumerator GameOverFlickerRoutine() 
     {
         while (true) 
