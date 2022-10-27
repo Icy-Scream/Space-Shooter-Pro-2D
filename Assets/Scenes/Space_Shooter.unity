@@ -780,6 +780,7 @@ MonoBehaviour:
   - {fileID: 2162877809248072811, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
   - {fileID: 6521614645825110218, guid: b1d9b045839a4054f83be50c97b1ce3d, type: 3}
   - {fileID: 5882990403521378440, guid: 83c6752d4b3339948b1e2cf52f7d168f, type: 3}
+  - {fileID: 8471719568847527582, guid: e6c48dbe39cf37043acb08db29001384, type: 3}
   _spawnTimer: 3
   _powerUpTimer: 1
   _stopspawing: 0
@@ -1053,7 +1054,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -23.86544, w: 0}
+  m_margin: {x: 0, y: 0, z: -104.80434, w: -16.260921}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

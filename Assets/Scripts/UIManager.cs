@@ -50,6 +50,13 @@ public class UIManager : MonoBehaviour
             
     }
 
+    public void AddLives(int currentLives) 
+    {
+        Debug.Log("CURRENT LIVES " + currentLives);
+       transform.GetChild(1).transform.GetChild(currentLives - 1).GetComponent<Image>().enabled = true;
+    }
+
+
     public void GameOver()
     {
         _isGameOver = true;

@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
      [SerializeField] private float _playerSpeed;
      [SerializeField] private float _playerHealth;
                       private int _score = 0;
-                      private int _lives = 3;
+     [SerializeField] private int _lives = 3;
    
     [SerializeField] private bool _fireWeapon;
     [SerializeField] private float _fireRate;
@@ -293,6 +293,18 @@ public class Player : MonoBehaviour
     public int GetTotalAmmo() 
     {
         return _totalAmmo;
+    }
+
+    public void AddLife() 
+    {
+        if(_lives == 3) 
+        {
+            Debug.Log("MAX LIVES");
+            return;
+        }
+        else
+        _lives++;
+        _uiManager.AddLives(_lives);
     }
 
     IEnumerator LaserParentChangeRoutine()
