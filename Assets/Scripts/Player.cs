@@ -35,19 +35,20 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _isShieldsEnabled = false;
     [SerializeField] private int _shieldLevel;
       
-    [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private AudioClip _laserAudioClip;
-    [SerializeField] private AudioClip _powerUpAudioClip;
-    [SerializeField] private AudioClip _lowAmmoClip;
-    [SerializeField] private AudioClip _collectLivesClip;
-    [SerializeField] private AudioClip _ammoReload;
+  //  [SerializeField] private AudioSource _audioSource;
+  //  [SerializeField] private AudioClip _laserAudioClip;
+  //  [SerializeField] private AudioClip _powerUpAudioClip;
+  //  [SerializeField] private AudioClip _lowAmmoClip;
+  //  [SerializeField] private AudioClip _collectLivesClip;
+  //  [SerializeField] private AudioClip _ammoReload;
     
     [SerializeField] private float _gas = 10f;
     [SerializeField] private bool _setthrust = true;
     [SerializeField] private bool refill;
-    [SerializeField] private bool keyup;
 
-
+    [SerializeField] GameObject _audioManagerObject;
+    private Audio_Manager _audioManager;
+  
     private UIManager _uiManager;
     private Spawn_Mananger _spawnScript;
     
@@ -57,9 +58,9 @@ public class Player : MonoBehaviour
     {
         _spawnScript = GameObject.FindObjectOfType<Spawn_Mananger>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-        _audioSource = GetComponent<AudioSource>();
-        _uiManager.ThrusterSlider(gas);
-
+      //  _audioSource = GetComponent<AudioSource>();
+        _uiManager.ThrusterSlider(_gas);
+        _audioManager = _audioManagerObject.GetComponent<Audio_Manager>();
         transform.position = new Vector3(0,-5,0);
        
         _fireWeapon = true;
@@ -68,17 +69,16 @@ public class Player : MonoBehaviour
         {
             Debug.Log("THE SPAWNMANGER IS NULL!! MISSSSIINNG ERRROOORR");
         }
+        if (_audioManager == null)
+        {
+            Debug.Log("Audio MISSING");
+        }
 
-        if( _uiManager == null) 
+        if ( _uiManager == null) 
         {
             Debug.Log("Missing UI Manager");
         }
 
-        if(_audioSource == null) 
-        {
-            Debug.Log("AUDO SOURCE ON PLAYER NULL");
-        }
-        else { _audioSource.clip = _laserAudioClip; }
     }
 
     void Update()
@@ -142,38 +142,38 @@ public class Player : MonoBehaviour
              refill = true;
             _setthrust = false;
             _playerSpeed = 10;
-            stopKeyup = StartCoroutine(ThrusterCoolDown());
+            _stopKeyup = StartCoroutine(ThrusterCoolDown());
             Debug.Log("THRUSTER " + _playerSpeed);
         }
            
-        else if( (Input.GetKeyUp(KeyCode.LeftShift) && refill ) || (gas < 1 && refill)) 
+        else if( (Input.GetKeyUp(KeyCode.LeftShift) && refill ) || (_gas < 1 && refill)) 
         { 
           refill = false;  
          _playerSpeed = 8;
-         StopCoroutine(stopKeyup);
+         StopCoroutine(_stopKeyup);
          StartCoroutine(ThrusterRoutine()); 
         }
     }
     IEnumerator ThrusterCoolDown() 
     {
         refill = true;
-        while(gas >= 1 || keyup) 
+        while(_gas >= 1) 
         {
          
          yield return new WaitForSeconds(0.2f);
-         gas-= 0.2f;
-         _uiManager.ThrusterSlider(gas);
+         _gas-= 0.2f;
+         _uiManager.ThrusterSlider(_gas);
         }
     }
     IEnumerator ThrusterRoutine() 
     {
-        while (gas < 10) 
+        while (_gas < 10) 
         { 
           yield return new WaitForSeconds(0.2f);
-          gas += 0.2f;
-          _uiManager.ThrusterSlider(gas);
+          _gas += 0.2f;
+          _uiManager.ThrusterSlider(_gas);
         }
-          if (gas == 10) { _setthrust = true; }
+          if (_gas == 10) { _setthrust = true; }
         
     }
     private void ShootRocket() 
@@ -193,7 +193,7 @@ public class Player : MonoBehaviour
             {
                 StartCoroutine(LaserParentChangeRoutine());
                 _fireWeapon = false;
-                PlayLaserAudio();
+                _audioManager.PlayLaserClip();
                 StartCoroutine(DelayFireRateRoutine());
                 _ammoCount--;
                 LowAmmoAudio();
@@ -208,7 +208,7 @@ public class Player : MonoBehaviour
             { 
                StartCoroutine(LaserParentChangeRoutine());
                _fireWeapon = false;
-;              PlayLaserAudio();
+;              _audioManager.PlayLaserClip();
                StartCoroutine(DelayFireRateRoutine());
                _ammoCount--;
                 LowAmmoAudio();
@@ -223,7 +223,7 @@ public class Player : MonoBehaviour
             _fireWeapon = false;
             if (Input.GetKeyDown(KeyCode.R)) 
             {
-                SwitchAudioClip(_ammoReload);
+                _audioManager.PlayAmmoReloadClip();
                 _ammoCount = _totalAmmo;
                 _fireWeapon = true;
             }
@@ -233,7 +233,7 @@ public class Player : MonoBehaviour
     {
         if (_ammoCount == 0) 
         {
-            SwitchAudioClip(_lowAmmoClip);
+            _audioManager.PlayLowAmmoClip();
         }
     }
     public void Damage()
@@ -286,13 +286,13 @@ public class Player : MonoBehaviour
     }
     public void SetTripleShot() 
     {
-        SwitchAudioClip(_powerUpAudioClip);
+        _audioManager.PlayPowerUpClip();
         _isTripleShotEnabled = true;
         StartCoroutine(TripleShotPowerDownRoutine());
     }
     public void SetSpeedBoost() 
     {
-        SwitchAudioClip(_powerUpAudioClip);
+        _audioManager.PlayPowerUpClip();
         _isSpeedBoostEnabled = true;
         StartCoroutine(SpeedBoostPowerDownRoutine());
         
@@ -305,21 +305,21 @@ public class Player : MonoBehaviour
         switch (_shieldLevel) 
         {
             case 0:
-                SwitchAudioClip(_powerUpAudioClip);
+                _audioManager.PlayPowerUpClip();
                 _isShieldsEnabled = true;
                 shield.GetComponent<SpriteRenderer>().enabled = true;
                 _shieldLevel++;
                 break;
             
             case 1:
-                SwitchAudioClip(_powerUpAudioClip);
+                _audioManager.PlayPowerUpClip(); ;
                 _isShieldsEnabled = true;
                 shield.GetComponent<SpriteRenderer>().color = Color.red;
                 _shieldLevel++;
                 break;
 
             case 2:
-                SwitchAudioClip(_powerUpAudioClip);
+                _audioManager.PlayPowerUpClip();
                 _isShieldsEnabled = true;
                 shield.GetComponent<SpriteRenderer>().color = Color.yellow;
                 _shieldLevel++;
@@ -347,11 +347,6 @@ public class Player : MonoBehaviour
         return _score;
     }
 
-    private void PlayLaserAudio() 
-    {
-        _audioSource.clip = _laserAudioClip;
-        _audioSource.Play();
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Enemy_Laser") 
@@ -368,7 +363,7 @@ public class Player : MonoBehaviour
     public void SetCurrentAmmo() 
     {
         _ammoCount = _totalAmmo;
-       SwitchAudioClip(_ammoReload);
+        _audioManager.PlayAmmoReloadClip();
         if (_fireWeapon == false)
         {
             _fireWeapon = true;
@@ -389,7 +384,7 @@ public class Player : MonoBehaviour
         else
         _lives++;
         _uiManager.AddLives(_lives);
-        SwitchAudioClip(_collectLivesClip);
+        _audioManager.PlayCollectLivesClip();
         StartCoroutine(FlashGreenCourtine());
     }
 
@@ -449,11 +444,6 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(_speedBoostDuration);
         _isSpeedBoostEnabled = false;
-    }
-    private void SwitchAudioClip(AudioClip audioclip) 
-    {
-        _audioSource.clip = audioclip;
-        _audioSource.Play();
     }
 }
             

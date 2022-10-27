@@ -156,10 +156,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _laserPrefab: {fileID: 7973096874088234063, guid: dc3ae3bca346eb648a9b096a3c0f863a, type: 3}
+  _explosion: {fileID: 3261050592880432626, guid: 2092d5f78e5c0b347a933f9baaf50adb, type: 3}
   _playerSpeed: 8
   _playerHealth: 20
   _lives: 3
   _rocket: {fileID: 5800843869711916930, guid: 96f4d687a1ef49e4a9820aa97b6e82c7, type: 3}
+  _setRockets: 0
   _fireWeapon: 0
   _fireRate: 0.5
   _ammoCount: 15
@@ -173,7 +175,10 @@ MonoBehaviour:
   _lowAmmoClip: {fileID: 8300000, guid: ac31947f59a548e4d9621f6a3bf0dc4c, type: 3}
   _collectLivesClip: {fileID: 8300000, guid: 3b0fc338790e5b6459905e922d586765, type: 3}
   _ammoReload: {fileID: 8300000, guid: f7cb2c79476c99d438a27ae2c640bc61, type: 3}
-  _explosion: {fileID: 3261050592880432626, guid: 2092d5f78e5c0b347a933f9baaf50adb, type: 3}
+  _gas: 10
+  _setthrust: 1
+  refill: 0
+  _audioManagerObject: {fileID: 0}
 --- !u!70 &1998629755
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
