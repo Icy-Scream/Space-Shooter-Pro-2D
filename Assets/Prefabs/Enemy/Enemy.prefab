@@ -126,7 +126,7 @@ MonoBehaviour:
   _randomSpawn: {x: 0, y: 0, z: 0}
   _enemySpeed: 4
   _explosion: {fileID: 3261050592880432626, guid: 2092d5f78e5c0b347a933f9baaf50adb, type: 3}
-  _laser: {fileID: 7973096874088234063, guid: dc3ae3bca346eb648a9b096a3c0f863a, type: 3}
+  laser: {fileID: 7973096874088234063, guid: dc3ae3bca346eb648a9b096a3c0f863a, type: 3}
   _coolDownLaser: 2
   _fireReady: 0
 --- !u!61 &7874923383959956957

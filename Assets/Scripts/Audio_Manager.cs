@@ -10,6 +10,7 @@ public class Audio_Manager : MonoBehaviour
     [SerializeField] private AudioClip _lowAmmoClip;
     [SerializeField] private AudioClip _collectLivesClip;
     [SerializeField] private AudioClip _ammoReload;
+    [SerializeField] private AudioClip _rocketFire;
 
     public void PlayLaserClip() 
     { 
@@ -34,6 +35,12 @@ public class Audio_Manager : MonoBehaviour
     public void PlayAmmoReloadClip()
     {
         _audioSource.clip = _ammoReload;
+        _audioSource.Play();
+    }
+
+    public void RocketFireClip() 
+    {
+        _audioSource.clip = _rocketFire;
         _audioSource.Play();
     }
 

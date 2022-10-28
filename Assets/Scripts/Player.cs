@@ -192,6 +192,7 @@ public class Player : MonoBehaviour
             }
             else if(_setRockets)
             {
+                _audioManager.RocketFireClip();
                 Instantiate(_rocket, transform.position, Quaternion.identity);
                 _fireWeapon = false;
                 StartCoroutine(DelayFireRateRoutine());
