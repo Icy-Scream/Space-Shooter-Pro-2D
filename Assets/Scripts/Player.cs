@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] GameObject _explosion;
+    [SerializeField] Sprite _redDamageShip;
+    [SerializeField] Sprite _greenShip;
      
     private int _score = 0;
     [SerializeField] private float _playerSpeed;
@@ -410,9 +412,9 @@ public class Player : MonoBehaviour
     }
     IEnumerator FlashRedCourtine()
     {
-        this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        this.gameObject.GetComponent<SpriteRenderer>().sprite = _redDamageShip;
         yield return new WaitForSeconds(0.3f);
-        this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        this.gameObject.GetComponent<SpriteRenderer>().sprite = _greenShip;
     }
     IEnumerator FlashGreenCourtine()
     {
@@ -438,15 +440,3 @@ public class Player : MonoBehaviour
         _isSpeedBoostEnabled = false;
     }
 }
-            
-            
-
-
-
-
-    
-
-
-
-
-
