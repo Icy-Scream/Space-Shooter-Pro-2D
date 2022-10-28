@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _enemySpeed = 4.0f;
   
     [SerializeField] private GameObject _explosion;
-    [SerializeField] private GameObject _laser;
+    [SerializeField] private GameObject laser;
     [SerializeField] private float _coolDownLaser;
     [SerializeField] private bool _fireReady;
    
@@ -59,10 +59,10 @@ public class Enemy : MonoBehaviour
 
     IEnumerator LaserParentChangeRoutine()
     {
-       GameObject laser = Instantiate(_laser, transform.position, Quaternion.identity, this.transform);
-        laser.gameObject.tag = "Enemy_Laser";
+       GameObject _laser = Instantiate(laser, transform.position, Quaternion.identity, this.transform);
+        _laser.gameObject.tag = "Enemy_Laser";
         yield return new WaitForSeconds(0.0001f);;
-        laser.transform.parent = transform.parent;
+        _laser.transform.parent = transform.parent;
     }
 
 

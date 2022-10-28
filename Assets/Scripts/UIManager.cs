@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _ammoText;
     [SerializeField] private Slider _slider;
     [SerializeField] private TMP_Text _maxShields;
+    [SerializeField] private TMP_Text _maxHealth;
     private Player _playerScript;
    
     void Start()
@@ -26,7 +27,6 @@ public class UIManager : MonoBehaviour
         }    
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(_playerGameObject!= null)
@@ -43,6 +43,11 @@ public class UIManager : MonoBehaviour
             SceneManager.LoadScene(1); 
         }
 
+    }
+
+    public void MaxLives() 
+    {
+        StartCoroutine(MaxLivesFlickerRoutine());
     }
     
 
@@ -100,6 +105,19 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
         _maxShields.text = "";
+    }
+
+    IEnumerator MaxLivesFlickerRoutine()
+    {
+
+        for (int i = 0; i <= 2; i++)
+        {
+            _maxHealth.text = "MAX LIVES";
+            yield return new WaitForSeconds(0.5f);
+            _maxHealth.text = "";
+            yield return new WaitForSeconds(0.5f);
+        }
+        _maxHealth.text = "";
     }
 
 

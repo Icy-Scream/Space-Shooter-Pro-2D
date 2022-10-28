@@ -8,8 +8,8 @@ public class Rocket : MonoBehaviour
 {
     [SerializeField] float _rocketSpeed;
     [SerializeField] float _offsetAngle;
-    Enemy _seekingEnemy;
-    // Start is called before the first frame update
+    private Enemy _seekingEnemy;
+
     void Start()
     {
         _seekingEnemy = FindObjectOfType<Enemy>();
@@ -20,7 +20,6 @@ public class Rocket : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
       SeekingEnemy();

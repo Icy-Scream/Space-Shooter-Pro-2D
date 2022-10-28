@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
     
     [SerializeField] private float _gas = 10f;
     [SerializeField] private bool _setthrust = true;
-    [SerializeField] private bool refill;
+    [SerializeField] private bool _refill;
 
     [SerializeField] GameObject _audioManagerObject;
     private Audio_Manager _audioManager;
@@ -120,33 +120,33 @@ public class Player : MonoBehaviour
     }
     private void PlayerAxisMove()
     {
-        float HorizontalInput = Input.GetAxis("Horizontal");
-        float VerticalInput = Input.GetAxis("Vertical");
-        Vector3 direction = new Vector3(HorizontalInput,VerticalInput,0);
+        float _horizontalInput = Input.GetAxis("Horizontal");
+        float _verticalInput = Input.GetAxis("Vertical");
+        Vector3 _direction = new Vector3(_horizontalInput,_verticalInput,0);
         
         if(_isSpeedBoostEnabled == true)
         {
-            transform.Translate(direction * (_playerSpeed + _speedBoost) * Time.deltaTime);
+            transform.Translate(_direction * (_playerSpeed + _speedBoost) * Time.deltaTime);
         }
 
         else 
         { 
-            transform.Translate(direction * _playerSpeed * Time.deltaTime);
+            transform.Translate(_direction * _playerSpeed * Time.deltaTime);
         }
     }
     private void Thruster() 
     {
         if (Input.GetKey(KeyCode.LeftShift) && _setthrust)
         {
-             refill = true;
+             _refill = true;
             _setthrust = false;
             _playerSpeed = 10;
             _stopKeyup = StartCoroutine(ThrusterCoolDown());
         }
            
-        else if( (Input.GetKeyUp(KeyCode.LeftShift) && refill ) || (_gas < 1 && refill)) 
+        else if( (Input.GetKeyUp(KeyCode.LeftShift) && _refill ) || (_gas < 1 && _refill)) 
         { 
-          refill = false;  
+          _refill = false;  
          _playerSpeed = 8;
          StopCoroutine(_stopKeyup);
          StartCoroutine(ThrusterRoutine()); 
@@ -157,7 +157,7 @@ public class Player : MonoBehaviour
     
     IEnumerator ThrusterCoolDown() 
     {
-        refill = true;
+        _refill = true;
         while(_gas >= 1) 
         {
          yield return new WaitForSeconds(0.2f);
@@ -372,7 +372,8 @@ public class Player : MonoBehaviour
     {
         if(_lives == 3) 
         {
-            Debug.Log("MAX LIVES");
+            _uiManager.MaxLives();
+            _audioManager.PlayCollectLivesClip();
             return;
         }
         else
@@ -387,21 +388,21 @@ public class Player : MonoBehaviour
         Vector3 _laserpos = new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z);
         if (_isTripleShotEnabled)
         {
-            GameObject tripleShot = Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity, this.transform);
+            GameObject _tripleShot = Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity, this.transform);
             yield return new WaitForSeconds(0.0001f);
-            tripleShot.transform.parent = transform.parent;
-           for(int i = 0; i < tripleShot.transform.childCount; i++) 
+            _tripleShot.transform.parent = transform.parent;
+           for(int i = 0; i < _tripleShot.transform.childCount; i++) 
             { 
-                tripleShot.transform.GetChild(i).tag = "Laser";
+                _tripleShot.transform.GetChild(i).tag = "Laser";
             }
-            Destroy(tripleShot, 3);
+            Destroy(_tripleShot, 3);
         }
         else
         {
-            GameObject laser = Instantiate(_laserPrefab, _laserpos, Quaternion.identity, this.transform);
+            GameObject _laser = Instantiate(_laserPrefab, _laserpos, Quaternion.identity, this.transform);
             yield return new WaitForSeconds(0.0001f);
-            laser.gameObject.tag = "Laser";
-            laser.transform.parent = transform.parent;
+            _laser.gameObject.tag = "Laser";
+            _laser.transform.parent = transform.parent;
         }
     }       
 
