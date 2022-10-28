@@ -7,16 +7,16 @@ using UnityEngine.Android;
 
 public class Player : MonoBehaviour
 {
-     [SerializeField] private GameObject _laserPrefab;
-     [SerializeField] GameObject _explosion;
+    [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] GameObject _explosion;
      
-     [SerializeField] private float _playerSpeed;
-     [SerializeField] private float _playerHealth;
-     [SerializeField] private int _lives = 3;
+    [SerializeField] private float _playerSpeed;
+    [SerializeField] private float _playerHealth;
+    [SerializeField] private int _lives = 3;
                       private int _score = 0;
      
-     [SerializeField] private GameObject _rocket;
-     [SerializeField] bool _setRockets = false;
+    [SerializeField] private GameObject _rocket;
+    [SerializeField] bool _setRockets = false;
    
     [SerializeField] private bool _fireWeapon;
     [SerializeField] private float _fireRate;
@@ -34,13 +34,6 @@ public class Player : MonoBehaviour
 
     [SerializeField] private bool _isShieldsEnabled = false;
     [SerializeField] private int _shieldLevel;
-      
-  //  [SerializeField] private AudioSource _audioSource;
-  //  [SerializeField] private AudioClip _laserAudioClip;
-  //  [SerializeField] private AudioClip _powerUpAudioClip;
-  //  [SerializeField] private AudioClip _lowAmmoClip;
-  //  [SerializeField] private AudioClip _collectLivesClip;
-  //  [SerializeField] private AudioClip _ammoReload;
     
     [SerializeField] private float _gas = 10f;
     [SerializeField] private bool _setthrust = true;
@@ -54,16 +47,23 @@ public class Player : MonoBehaviour
     
     private Coroutine _stopKeyup;
 
+    private Animator _cameraShake;
+
     void Start()
     {
         _spawnScript = GameObject.FindObjectOfType<Spawn_Mananger>();
+        _cameraShake = GameObject.FindObjectOfType<Camera>().GetComponent<Animator>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-      //  _audioSource = GetComponent<AudioSource>();
         _uiManager.ThrusterSlider(_gas);
         _audioManager = _audioManagerObject.GetComponent<Audio_Manager>();
         transform.position = new Vector3(0,-5,0);
        
         _fireWeapon = true;
+
+        if (_cameraShake == null) 
+        {
+            Debug.Log("MISSING CAMERA");
+        }
        
         if (_spawnScript == null)
         {
@@ -238,6 +238,7 @@ public class Player : MonoBehaviour
     }
     public void Damage()
     {
+        _cameraShake.SetTrigger("CameraShake");
         if (_isShieldsEnabled) 
         {
             GameObject _shield = transform.GetChild(0).gameObject;

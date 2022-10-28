@@ -169,12 +169,6 @@ MonoBehaviour:
   _tripleShotPrefab: {fileID: 6182582455045883186, guid: 8ab592361f55e6b47948788a09462e01, type: 3}
   _isShieldsEnabled: 0
   _shieldLevel: 0
-  _audioSource: {fileID: 0}
-  _laserAudioClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
-  _powerUpAudioClip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
-  _lowAmmoClip: {fileID: 8300000, guid: ac31947f59a548e4d9621f6a3bf0dc4c, type: 3}
-  _collectLivesClip: {fileID: 8300000, guid: 3b0fc338790e5b6459905e922d586765, type: 3}
-  _ammoReload: {fileID: 8300000, guid: f7cb2c79476c99d438a27ae2c640bc61, type: 3}
   _gas: 10
   _setthrust: 1
   refill: 0
