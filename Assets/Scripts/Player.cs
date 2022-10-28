@@ -10,15 +10,15 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] GameObject _explosion;
      
+    private int _score = 0;
     [SerializeField] private float _playerSpeed;
     [SerializeField] private float _playerHealth;
     [SerializeField] private int _lives = 3;
-                      private int _score = 0;
      
     [SerializeField] private GameObject _rocket;
-    [SerializeField] bool _setRockets = false;
+    bool _setRockets = false;
    
-    [SerializeField] private bool _fireWeapon;
+    private bool _fireWeapon;
     [SerializeField] private float _fireRate;
     [SerializeField] private int _ammoCount = 15;
     [SerializeField] private int _totalAmmo = 15;
@@ -32,8 +32,8 @@ public class Player : MonoBehaviour
     private float _speedBoost = 5.0f;
     private float _speedBoostDuration = 3.0f;
 
-    [SerializeField] private bool _isShieldsEnabled = false;
-    [SerializeField] private int _shieldLevel;
+    private bool _isShieldsEnabled = false;
+    private int _shieldLevel;
     
     [SerializeField] private float _gas = 10f;
     [SerializeField] private bool _setthrust = true;
@@ -59,6 +59,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0,-5,0);
        
         _fireWeapon = true;
+       
 
         if (_cameraShake == null) 
         {
@@ -87,11 +88,9 @@ public class Player : MonoBehaviour
         PlayerAxisMove();
         Shoot();
         Thruster();
-  
-
-        //ShootRocket();
     }
     
+   
     public void SetRocket() 
     {
         _setRockets = true;
@@ -122,6 +121,7 @@ public class Player : MonoBehaviour
         float HorizontalInput = Input.GetAxis("Horizontal");
         float VerticalInput = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(HorizontalInput,VerticalInput,0);
+        
         if(_isSpeedBoostEnabled == true)
         {
             transform.Translate(direction * (_playerSpeed + _speedBoost) * Time.deltaTime);
@@ -131,10 +131,7 @@ public class Player : MonoBehaviour
         { 
             transform.Translate(direction * _playerSpeed * Time.deltaTime);
         }
-        
-
     }
-    
     private void Thruster() 
     {
         if (Input.GetKey(KeyCode.LeftShift) && _setthrust)
@@ -143,7 +140,6 @@ public class Player : MonoBehaviour
             _setthrust = false;
             _playerSpeed = 10;
             _stopKeyup = StartCoroutine(ThrusterCoolDown());
-            Debug.Log("THRUSTER " + _playerSpeed);
         }
            
         else if( (Input.GetKeyUp(KeyCode.LeftShift) && refill ) || (_gas < 1 && refill)) 
@@ -154,17 +150,20 @@ public class Player : MonoBehaviour
          StartCoroutine(ThrusterRoutine()); 
         }
     }
+        
+
+    
     IEnumerator ThrusterCoolDown() 
     {
         refill = true;
         while(_gas >= 1) 
         {
-         
          yield return new WaitForSeconds(0.2f);
          _gas-= 0.2f;
          _uiManager.ThrusterSlider(_gas);
         }
     }
+         
     IEnumerator ThrusterRoutine() 
     {
         while (_gas < 10) 
@@ -176,15 +175,6 @@ public class Player : MonoBehaviour
           if (_gas == 10) { _setthrust = true; }
         
     }
-    private void ShootRocket() 
-    {
-        if (Input.GetKeyDown(KeyCode.Q)) 
-        { 
-            Instantiate(_rocket, transform.position, Quaternion.identity);
-        }
-        
-    }
-
     private void Shoot()
     {
         if (Input.GetKeyDown(KeyCode.Space) && _fireWeapon)
@@ -211,15 +201,11 @@ public class Player : MonoBehaviour
 ;              _audioManager.PlayLaserClip();
                StartCoroutine(DelayFireRateRoutine());
                _ammoCount--;
-                LowAmmoAudio();
+               LowAmmoAudio();
             }
-            
-            
-            
         }
        else if (_ammoCount == 0) 
         {
-            
             _fireWeapon = false;
             if (Input.GetKeyDown(KeyCode.R)) 
             {
@@ -236,9 +222,11 @@ public class Player : MonoBehaviour
             _audioManager.PlayLowAmmoClip();
         }
     }
+            
     public void Damage()
     {
         _cameraShake.SetTrigger("CameraShake");
+        
         if (_isShieldsEnabled) 
         {
             GameObject _shield = transform.GetChild(0).gameObject;
@@ -285,6 +273,9 @@ public class Player : MonoBehaviour
         }
         
     }
+            
+            
+            
     public void SetTripleShot() 
     {
         _audioManager.PlayPowerUpClip();
@@ -300,7 +291,7 @@ public class Player : MonoBehaviour
     }
     public void SetShield() 
     {
-        GameObject shield = transform.GetChild(0).gameObject;
+        GameObject _shield = transform.GetChild(0).gameObject;
         _isShieldsEnabled = true;
         
         switch (_shieldLevel) 
@@ -308,21 +299,21 @@ public class Player : MonoBehaviour
             case 0:
                 _audioManager.PlayPowerUpClip();
                 _isShieldsEnabled = true;
-                shield.GetComponent<SpriteRenderer>().enabled = true;
+                _shield.GetComponent<SpriteRenderer>().enabled = true;
                 _shieldLevel++;
                 break;
             
             case 1:
                 _audioManager.PlayPowerUpClip(); ;
                 _isShieldsEnabled = true;
-                shield.GetComponent<SpriteRenderer>().color = Color.red;
+                _shield.GetComponent<SpriteRenderer>().color = Color.red;
                 _shieldLevel++;
                 break;
 
             case 2:
                 _audioManager.PlayPowerUpClip();
                 _isShieldsEnabled = true;
-                shield.GetComponent<SpriteRenderer>().color = Color.yellow;
+                _shield.GetComponent<SpriteRenderer>().color = Color.yellow;
                 _shieldLevel++;
                 break;
           default:
@@ -330,7 +321,7 @@ public class Player : MonoBehaviour
                 { 
                 _shieldLevel = 0;
                 }
-                else { Debug.Log("MAX SHIELDS"); return; }
+                else {_uiManager.MaxShields(); return; }
                 break;
         }
                

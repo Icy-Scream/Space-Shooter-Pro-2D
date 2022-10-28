@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private bool _isGameOver;
     [SerializeField] private TMP_Text _ammoText;
     [SerializeField] private Slider _slider;
+    [SerializeField] private TMP_Text _maxShields;
     private Player _playerScript;
    
     void Start()
@@ -66,6 +67,10 @@ public class UIManager : MonoBehaviour
  
     }
 
+    public void MaxShields() 
+    {
+        StartCoroutine(MaxShieldsFlickerRoutine());
+    }
 
     public void ThrusterSlider(float thrust)
     {
@@ -83,9 +88,22 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
     }
+
+    IEnumerator MaxShieldsFlickerRoutine()
+    {
         
-        
-        
+        for(int i = 0; i <= 2; i++)
+        {
+            _maxShields.text = "MAX SHIELDS";
+            yield return new WaitForSeconds(0.5f);
+            _maxShields.text = "";
+            yield return new WaitForSeconds(0.5f);
+        }
+        _maxShields.text = "";
+    }
+
+
+
 
 
 
