@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -30,24 +29,78 @@ public class Enemy : MonoBehaviour
     }
     void Update()
     {
-        EnemyMovement();
-        
-        if(_fireReady == true) 
+        //SideToSide();
+        //EnemyMovement();
+        SpinInCircle();
+
+       if(_fireReady == true) 
         { 
             Shoot();
         }
         
     }
 
-    private void EnemyMovement()
+   private void EnemyMovement()
     {
         transform.Translate((_enemyDirection) * _enemySpeed * Time.deltaTime);
         if(transform.position.y < -6.5f )
         {
-            _randomSpawn = new Vector3(Random.Range(-11.18f,11.18f),_enemySpawn,0);
+            _randomSpawn = new Vector3(Random.Range(-10f,10f),_enemySpawn,0);
             transform.position =_randomSpawn;
         } 
     }
+
+
+   int _rightOrLeft = 0;
+   private void SideToSide() 
+    {
+        switch (_rightOrLeft) 
+        {
+            case 0: transform.Translate((Vector3.right) * _enemySpeed * Time.deltaTime);
+                if(transform.position.x > 9.5f) 
+                {
+                  transform.Translate((Vector3.down) * 20f * Time.deltaTime);
+                  _rightOrLeft = 1;
+                }
+                break;
+            case 1: transform.Translate((Vector3.left) * _enemySpeed * Time.deltaTime);
+                if(transform.position.x < -9.5f) 
+                {
+                    transform.Translate((Vector3.down) * 20f * Time.deltaTime);
+                    _rightOrLeft = 0;
+                }
+                break;
+        
+        }
+    }
+
+            float angle = 50;
+   private void SpinInCircle() 
+    {
+        transform.Translate((Vector3.down) * _enemySpeed * Time.deltaTime);
+        if(transform.position.y <= -0.28) 
+        {
+            float x, y;
+            float radius = 50;
+
+
+            x = radius * Mathf.Cos(angle);
+            y = radius * Mathf.Sin(angle);
+
+            transform.Translate(new Vector2(x, y) * _enemySpeed * Time.deltaTime);
+            angle += 1;
+        }
+    }
+
+    
+    
+
+
+
+        
+        
+        
+
 
     private void Shoot() 
     {
