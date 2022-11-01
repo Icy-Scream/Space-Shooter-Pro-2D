@@ -23,8 +23,8 @@ public class Rocket : MonoBehaviour
 
     void Update()
     {
-        //SeekingEnemy();
-        MathROcket();
+        SeekingEnemy();
+        //MathROcket();
     }
 
     private void SeekingEnemy() 

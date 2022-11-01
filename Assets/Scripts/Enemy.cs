@@ -13,12 +13,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject laser;
     [SerializeField] private float _coolDownLaser;
     [SerializeField] private bool _fireReady;
+    [SerializeField] private int _movementID;
 
-    [SerializeField] private
     Vector3 _centre;
     private float _radius = 1f;
     private float _angle;
     private float _rotateSpeed = 5f;
+    private int _rightOrLeft = 0;
 
     private Player  _player;
     
@@ -33,20 +34,42 @@ public class Enemy : MonoBehaviour
         
         _fireReady = true;
         _centre = (new Vector3(transform.position.x,-0.28f,0f));
+        _movementID = Random.Range(0,3);
     }
     void Update()
     {
-        //SideToSide();
-        EnemyMovement();
-       // SpinInCircle();
+        PickingMovement();
 
        if(_fireReady == true) 
         { 
             Shoot();
         }
-        
     }
+        
+    
+   private void PickingMovement() 
+    {
+        switch (_movementID) 
+        { 
+            case 0:
+                EnemyMovement();
+                break;
+            case 1:
+                SideToSide();
+                break;
+            case 2:
+                SpinInCircle();
+                break;
+            default:
+                EnemyMovement();
+                break;
+        }
+    }
+        
+        
 
+        
+    
    private void EnemyMovement()
     {
         transform.Translate((_enemyDirection) * _enemySpeed * Time.deltaTime);
@@ -58,22 +81,40 @@ public class Enemy : MonoBehaviour
     }
 
 
-   int _rightOrLeft = 0;
+   
    private void SideToSide() 
     {
         switch (_rightOrLeft) 
         {
-            case 0: transform.Translate((Vector3.right) * _enemySpeed * Time.deltaTime);
+            case 0: 
+                if(transform.position.y > 0.28) 
+                {
+                    transform.Translate((Vector3.down) * _enemySpeed * Time.deltaTime);
+                }
+                else
+                
+                 transform.Translate((Vector3.right) * 10f * Time.deltaTime);
+                
                 if(transform.position.x > 9.5f) 
                 {
-                  transform.Translate((Vector3.down) * 20f * Time.deltaTime);
-                  _rightOrLeft = 1;
+                    transform.Translate((Vector3.down) * 20f * Time.deltaTime);
+                    _rightOrLeft = 1;
                 }
+
                 break;
-            case 1: transform.Translate((Vector3.left) * _enemySpeed * Time.deltaTime);
+            case 1:
+                if (transform.position.y > 0.28)
+                {
+                    transform.Translate((Vector3.down) * _enemySpeed * Time.deltaTime);
+                }
+                else
+                    transform.Translate((Vector3.left) * 10f * Time.deltaTime);
                 if(transform.position.x < -9.5f) 
                 {
-                    transform.Translate((Vector3.down) * 20f * Time.deltaTime);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        transform.Translate((Vector3.down) * 20f * Time.deltaTime);
+                    }
                     _rightOrLeft = 0;
                 }
                 break;
@@ -109,15 +150,6 @@ public class Enemy : MonoBehaviour
             transform.position = _randomSpawn;
         }
     }
-
-    
-    
-
-
-
-        
-        
-        
 
 
     private void Shoot() 
@@ -182,7 +214,10 @@ public class Enemy : MonoBehaviour
         _fireReady = true;
     }
         
-
+    public int GetMovementID() 
+    {
+        return _movementID;
+    }
        
 
 
