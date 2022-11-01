@@ -76,7 +76,7 @@ public class Enemy : MonoBehaviour
         if(transform.position.y < -6.5f )
         {
             _randomSpawn = new Vector3(Random.Range(-10f,10f),_enemySpawn,0);
-            transform.position =_randomSpawn;
+            Destroy(this.gameObject);
         } 
     }
 

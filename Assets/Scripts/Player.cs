@@ -43,7 +43,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] GameObject _audioManagerObject;
     private Audio_Manager _audioManager;
-  
+
+    private bool _isFrozen = false;
     private UIManager _uiManager;
     private Spawn_Mananger _spawnScript;
     
@@ -136,7 +137,7 @@ public class Player : MonoBehaviour
     }
     private void Thruster() 
     {
-        if (Input.GetKey(KeyCode.LeftShift) && _setthrust)
+        if (Input.GetKey(KeyCode.LeftShift) && _setthrust && !_isFrozen)
         {
              _refill = true;
             _setthrust = false;
@@ -277,7 +278,12 @@ public class Player : MonoBehaviour
         
     }
             
-            
+    public void SetFrozenNegative()
+    {
+        _isFrozen = true;
+        _playerSpeed = 0;
+        StartCoroutine(FrozenDebuff());    
+    }       
             
     public void SetTripleShot() 
     {
@@ -440,5 +446,12 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(_speedBoostDuration);
         _isSpeedBoostEnabled = false;
+    }
+
+    IEnumerator FrozenDebuff() 
+    {
+        yield return new WaitForSeconds(2f);
+        _isFrozen = false;
+        _playerSpeed = 8f;
     }
 }

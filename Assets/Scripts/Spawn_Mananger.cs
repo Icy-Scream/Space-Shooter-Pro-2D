@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class Spawn_Mananger : MonoBehaviour
@@ -26,7 +24,6 @@ public class Spawn_Mananger : MonoBehaviour
     }
     public void StartSpawning()
     {
-        //StartCoroutine(SpawnWaveRoutine());
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerUp());
         StartCoroutine(RareSpawnPowerUp());
@@ -56,42 +53,17 @@ public class Spawn_Mananger : MonoBehaviour
     private void StartTimer()
     {
         _startTimer = true;
-        _difficultyTimer = Time.time + 20f;
+        _difficultyTimer = Time.time + 30f;
     }   
 
     private void IncreaseDifficulty() 
     {
-        Debug.Log(Time.time);
-        if(Time.time > _difficultyTimer && _startTimer) 
+      if(Time.time > _difficultyTimer && _startTimer) 
         {
             _increaseDifficulty = true;
-            _difficultyTimer = Time.time + 20f;
+            _difficultyTimer = Time.time + 30f;
         }
     }
-
-
-
-        
-    IEnumerator SpawnWaveRoutine()
-    {
-        yield return new WaitForSeconds(3);
-        for(int i = 0; i < _waves.Length; i++) 
-        { 
-            _enemyWave = _waves[i].GetComponent<Waves>().GetEnemies();
-        
-            yield return new WaitForSeconds(_spawnEnemyTimer);
-            for(int k = 0; k < _enemyWave.Length; k++)
-             {
-               _spawnPOS = new Vector3(Random.Range(-9.0f, 9.0f), 6.8f, 0);
-               GameObject newEnemy = Instantiate(_enemyWave[k], _spawnPOS, Quaternion.identity);
-               newEnemy.transform.parent = _enemyContainer.transform;
-             }
-            
-        }
-        Debug.Log("EXIT FOR LOOP");
-    }
-        
-
     IEnumerator SpawnPowerUp()
     {
         yield return new WaitForSeconds(3);
@@ -99,7 +71,7 @@ public class Spawn_Mananger : MonoBehaviour
         {
             _powerUpTimer = Random.Range(3.0f, 7.0f);
 
-            int _powerUpsID = Random.Range(0, _powerUps.Length - 1);
+            int _powerUpsID = Random.Range(0, _powerUps.Length - 2);
 
             yield return new WaitForSeconds(_powerUpTimer);
 
@@ -116,7 +88,7 @@ public class Spawn_Mananger : MonoBehaviour
         {
 
             _rarePowerUpTimer = Random.Range(30.0f,60.0f);
-            int _powerUpsID = 5;
+            int _powerUpsID = Random.Range(5,7);
             yield return new WaitForSeconds(_rarePowerUpTimer);
             _spawnPOS = new Vector3(Random.Range(-10.0f, 10.0f), 6.8f, 0);
             Instantiate(_powerUps[_powerUpsID], _spawnPOS, Quaternion.identity);

@@ -50,6 +50,9 @@ public class PowerUp : MonoBehaviour
                     case 5:
                         player.SetRocket();
                         break;
+                    case 6:
+                        player.SetFrozenNegative();
+                        break;
                     default:
                         Debug.Log("Default Value");
                         break;
