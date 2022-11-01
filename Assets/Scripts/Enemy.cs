@@ -162,10 +162,17 @@ public class Enemy : MonoBehaviour
 
     IEnumerator LaserParentChangeRoutine()
     {
-       GameObject _laser = Instantiate(laser, transform.position, Quaternion.identity, this.transform);
-        _laser.gameObject.tag = "Enemy_Laser";
-        yield return new WaitForSeconds(0.0001f);;
-        _laser.transform.parent = transform.parent;
+        GameObject _laser = Instantiate(laser, transform.position, Quaternion.identity, this.transform);
+        if (_laser == null)
+        {
+            Debug.Log("Laser Missing");
+        }
+        else 
+        { 
+            _laser.gameObject.tag = "Enemy_Laser";
+            yield return new WaitForSeconds(0.0001f);;
+            _laser.transform.parent = transform.parent;
+        }
     }
 
 

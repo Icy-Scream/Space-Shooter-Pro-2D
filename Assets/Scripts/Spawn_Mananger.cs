@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Spawn_Mananger : MonoBehaviour
 {
-    [SerializeField] GameObject _enemy;
+    [SerializeField] GameObject[] _enemy;
     [SerializeField] GameObject _enemyContainer;
     [SerializeField] GameObject[] _powerUps;
     [SerializeField] float _spawnEnemyTimer;
@@ -41,7 +41,7 @@ public class Spawn_Mananger : MonoBehaviour
                 for(int i = 0; i < _amountSpawnPerWave; i++) 
                 { 
                      _spawnPOS = new Vector3(Random.Range(-9.0f, 9.0f),Random.Range(5f,9.0f), 0);
-                    GameObject newEnemy = Instantiate(_enemy, _spawnPOS, Quaternion.identity);
+                    GameObject newEnemy = Instantiate(_enemy[Random.Range(0,2)], _spawnPOS, Quaternion.identity);
                     newEnemy.transform.parent = _enemyContainer.transform;
                 }
             } 
