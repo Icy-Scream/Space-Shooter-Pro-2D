@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
@@ -22,7 +23,8 @@ public class Rocket : MonoBehaviour
 
     void Update()
     {
-      SeekingEnemy();
+        //SeekingEnemy();
+        MathROcket();
     }
 
     private void SeekingEnemy() 
@@ -41,7 +43,14 @@ public class Rocket : MonoBehaviour
         }
 
     }
-                
+    
+    private void MathROcket()
+    {
+        Vector3 a = this.transform.position;
+        Vector3 b = _seekingEnemy.transform.position;
+        Vector3 _directionToTarget =(b - a).normalized;
+        transform.Translate(_directionToTarget  *  Time.deltaTime);
+    }           
                 
             
             

@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -53,7 +54,11 @@ public class UIManager : MonoBehaviour
 
     public void UpdateLives(int currentLives) 
     {
-        transform.GetChild(1).transform.GetChild(currentLives).GetComponent<Image>().enabled = false;    
+        if (currentLives >= 0) 
+        {
+           transform.GetChild(1).transform.GetChild(currentLives).GetComponent<Image>().enabled = false;    
+        }
+        else return;
             
     }
 

@@ -11,12 +11,14 @@ public class Spawn_Mananger : MonoBehaviour
     [SerializeField] float _rarePowerUpTimer;
     [SerializeField] float _powerUpTimer;
     [SerializeField] private bool _stopspawing = false;
+    [SerializeField] GameObject _waves;
 
     private Vector3 _spawnPOS;
 
     public void StartSpawning()
     {
-        StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnWaveRoutine());
+        //StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerUp());
         StartCoroutine(RareSpawnPowerUp());
     }
@@ -28,12 +30,31 @@ public class Spawn_Mananger : MonoBehaviour
         {
             yield return new WaitForSeconds(_spawnEnemyTimer);
             _spawnPOS = new Vector3(Random.Range(-9.0f, 9.0f), 6.8f, 0);
-
             GameObject newEnemy = Instantiate(_enemy, _spawnPOS, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
+
         }
 
     }
+
+    IEnumerator SpawnWaveRoutine()
+    {
+        GameObject[] _enemyWave = _waves.GetComponent<Waves>().GetEnemies();
+        yield return new WaitForSeconds(3);
+        while (_stopspawing == false)
+        {
+            yield return new WaitForSeconds(_spawnEnemyTimer);
+            _spawnPOS = new Vector3(Random.Range(-9.0f, 9.0f), 6.8f, 0);
+            for(int k = 0; k < _enemyWave.Length; k++)
+            {
+                GameObject newEnemy = Instantiate(_enemyWave[k], _spawnPOS, Quaternion.identity);
+                newEnemy.transform.parent = _enemyContainer.transform;
+            }
+        }
+    }
+            
+
+
 
     IEnumerator SpawnPowerUp()
     {

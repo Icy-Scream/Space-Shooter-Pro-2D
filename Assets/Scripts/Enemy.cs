@@ -13,7 +13,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject laser;
     [SerializeField] private float _coolDownLaser;
     [SerializeField] private bool _fireReady;
-   
+
+    [SerializeField] private
+    Vector3 _centre;
+    private float _radius = 1f;
+    private float _angle;
+    private float _rotateSpeed = 5f;
+
     private Player  _player;
     
     private void Start()
@@ -26,12 +32,13 @@ public class Enemy : MonoBehaviour
         else Debug.Log("Player Object Destroyed");
         
         _fireReady = true;
+        _centre = (new Vector3(transform.position.x,-0.28f,0f));
     }
     void Update()
     {
         //SideToSide();
-        //EnemyMovement();
-        SpinInCircle();
+        EnemyMovement();
+       // SpinInCircle();
 
        if(_fireReady == true) 
         { 
@@ -74,21 +81,32 @@ public class Enemy : MonoBehaviour
         }
     }
 
-            float angle = 50;
+    bool _spinning =false;
+    int _totalSpins;
    private void SpinInCircle() 
     {
-        transform.Translate((Vector3.down) * _enemySpeed * Time.deltaTime);
-        if(transform.position.y <= -0.28) 
+
+        if (transform.position.y > -0.28 && !_spinning || _totalSpins == 4) 
+        { 
+          transform.Translate((Vector3.down) * _enemySpeed * Time.deltaTime);
+          _totalSpins = 0;
+        }
+        
+        
+        else if (transform.position.y <= -0.28 || _spinning)
         {
-            float x, y;
-            float radius = 50;
+            _spinning = true;
+            _angle += _rotateSpeed * Time.deltaTime;
+            var offset = new Vector3(Mathf.Sin(_angle), Mathf.Cos(_angle), 0) * _radius;
+            transform.position = _centre + offset;
+            _totalSpins++;
 
+        }
 
-            x = radius * Mathf.Cos(angle);
-            y = radius * Mathf.Sin(angle);
-
-            transform.Translate(new Vector2(x, y) * _enemySpeed * Time.deltaTime);
-            angle += 1;
+        else if (transform.position.y < -6.5f)
+        {
+            _randomSpawn = new Vector3(Random.Range(-10f, 10f), _enemySpawn, 0);
+            transform.position = _randomSpawn;
         }
     }
 
