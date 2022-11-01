@@ -3,18 +3,19 @@ using UnityEngine;
 
 public class Spawn_Mananger : MonoBehaviour
 {
-    [SerializeField] GameObject[] _enemy;
+    [SerializeField] private bool _startTimer = false;
+    [SerializeField] private float _difficultyTimer;
+    [SerializeField] private bool _increaseDifficulty;
     [SerializeField] GameObject _enemyContainer;
-    [SerializeField] GameObject[] _powerUps;
+    [SerializeField] private bool _stopspawing = false;
+    [SerializeField] GameObject[] _enemy;
     [SerializeField] float _spawnEnemyTimer;
+    [SerializeField] private int _newEnemy = 0;
+    [SerializeField] GameObject[] _powerUps;
     [SerializeField] float _rarePowerUpTimer;
     [SerializeField] float _powerUpTimer;
-    [SerializeField] private bool _stopspawing = false;
     [SerializeField] GameObject[] _waves;
     [SerializeField] private int _amountSpawnPerWave = 1;
-    [SerializeField] private bool _increaseDifficulty;
-    [SerializeField] private float _difficultyTimer;
-    [SerializeField] private bool _startTimer = false;
     GameObject[] _enemyWave;
 
     private Vector3 _spawnPOS;
@@ -32,6 +33,7 @@ public class Spawn_Mananger : MonoBehaviour
 
     IEnumerator SpawnEnemyRoutine()
     {
+       
         yield return new WaitForSeconds(3);
         while (_stopspawing == false)
         {
@@ -41,11 +43,15 @@ public class Spawn_Mananger : MonoBehaviour
                 for(int i = 0; i < _amountSpawnPerWave; i++) 
                 { 
                      _spawnPOS = new Vector3(Random.Range(-9.0f, 9.0f),Random.Range(5f,9.0f), 0);
-                    GameObject newEnemy = Instantiate(_enemy[Random.Range(0,2)], _spawnPOS, Quaternion.identity);
+                    GameObject newEnemy = Instantiate(_enemy[Random.Range(0,_newEnemy + 1)], _spawnPOS, Quaternion.identity);
                     newEnemy.transform.parent = _enemyContainer.transform;
                 }
             } 
             _amountSpawnPerWave++;
+            if(_newEnemy < _enemy.Length - 1)
+            {
+                _newEnemy++;
+            }
             _increaseDifficulty = false;
         }
     }
