@@ -49,8 +49,8 @@ MonoBehaviour:
   _distance: 0
   _explosion: {fileID: 3261050592880432626, guid: 2092d5f78e5c0b347a933f9baaf50adb, type: 3}
   _exploding: 0
-  _detonationTimer: 3
-  _speed: 2
+  _detonationTimer: 1.5
+  _speed: 3.5
 --- !u!212 &5829765397813671901
 SpriteRenderer:
   m_ObjectHideFlags: 0

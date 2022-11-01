@@ -9,12 +9,14 @@ public class Bomb_Projectile : MonoBehaviour
     [SerializeField] private float _distance;
     [SerializeField] GameObject _explosion;
     [SerializeField] private bool _exploding;
-    [SerializeField] private float _detonationTimer = 3f;
+    [Range(1f,4f)]
+    [SerializeField] private float _detonationTimer;
     [SerializeField] private float _speed;
        
     void Start()
     {
        _player = FindObjectOfType<Player>();
+        _detonationTimer = Random.Range(1f, 4f);
         if( _player == null) 
         {
             Debug.Log("Player Missing");
@@ -26,10 +28,12 @@ public class Bomb_Projectile : MonoBehaviour
     void Update()
     {
         ExplosionRadius();
+        
     }
 
     private void ExplosionRadius()
     {
+        if (_player == null) {Debug.Log("Player Dead"); return; }
         _trackPlayerPOS = _player.transform.position;
         _distance = Vector3.Distance(transform.position, _trackPlayerPOS);
         
