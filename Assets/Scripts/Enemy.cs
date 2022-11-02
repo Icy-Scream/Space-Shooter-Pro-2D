@@ -14,6 +14,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _coolDownLaser;
     [SerializeField] private bool _fireReady;
     [SerializeField] private int _movementID;
+    [SerializeField] private GameObject _enemyShield;
+    [SerializeField] private bool _setShield;
+    [SerializeField] SpriteRenderer _disableShield;
+
+    [SerializeField] private float _shieldPercent;
 
     Vector3 _centre;
     private float _radius = 1f;
@@ -31,7 +36,8 @@ public class Enemy : MonoBehaviour
             
         }
         else Debug.Log("Player Object Destroyed");
-        
+
+        RandomShieldSpawn();
         _fireReady = true;
         _centre = (new Vector3(transform.position.x,-0.28f,0f));
         _movementID = Random.Range(0,3);
@@ -43,6 +49,17 @@ public class Enemy : MonoBehaviour
        if(_fireReady == true) 
         { 
             Shoot();
+        }
+    }
+
+    private void RandomShieldSpawn() 
+    { 
+        if(Random.value > _shieldPercent) 
+        { 
+            _setShield = true;
+            _enemyShield = Instantiate(_enemyShield,new Vector3(transform.position.x,transform.position.y, transform.position.z), Quaternion.identity);
+            _enemyShield.transform.parent = this.transform;
+           _disableShield = _enemyShield.GetComponent<SpriteRenderer>();
         }
     }
         
@@ -179,41 +196,48 @@ public class Enemy : MonoBehaviour
 
 
 
-    private void OnTriggerEnter2D(Collider2D other) 
+    private void OnTriggerEnter2D(Collider2D other)
     {
 
-    if(other.gameObject.tag == "Laser" || other.gameObject.tag == "Rocket")
-    {
-        if(_player != null)
+        if (other.gameObject.tag == "Laser" || other.gameObject.tag == "Rocket")
+        {
+            if (_player != null && !_setShield)
             {
                 _enemySpeed = 0;
-                _player.AddScore(Random.Range(0,50));
+                _player.AddScore(Random.Range(0, 50));
                 Instantiate(_explosion, transform.position, Quaternion.identity);
                 Destroy(other.gameObject);
                 Destroy(this.gameObject);
-                
+
             }
             else
             {
-                Debug.Log("Missing Player Object");
+                Destroy(other.gameObject);
+                _setShield = false;
+                _disableShield.enabled = false;
             }
-    }
-            
-            
-    else if(other.gameObject.tag == "Player")
-    {
-        if(_player != null)
-        {
-          _enemySpeed = 0;
-          Instantiate(_explosion, transform.position, Quaternion.identity);
-          Destroy(this.gameObject);
-          _player.Damage();
         }
-        else
-        Debug.Log("COMPONENT MISSING");
-            
+
+
+        else if (other.gameObject.tag == "Player")
+        {
+            if (_player != null && !_setShield)
+            {
+                _enemySpeed = 0;
+                Instantiate(_explosion, transform.position, Quaternion.identity);
+                Destroy(this.gameObject);
+                _player.Damage();
+            }
+            else
+            {
+                _player.Damage();
+                _setShield = false;
+                _disableShield.enabled = false;
+            }
+
+
+        }
     }
-}
 
     IEnumerator ShootCoolDownRoutine() 
     {

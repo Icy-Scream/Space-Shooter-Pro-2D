@@ -108,6 +108,7 @@ MonoBehaviour:
   _coolDownLaser: 2
   _fireReady: 0
   _movementID: 0
+  _enemyShield: {fileID: 6246904153309184626, guid: d9a804a7a90c62e4da1e99a00fc972b0, type: 3}
 --- !u!61 &252090360
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -1085,7 +1085,7 @@ MonoBehaviour:
   _waves:
   - {fileID: 2165657308204072708, guid: b5e2a01a6e6ccb24e81f0a00eae78ccb, type: 3}
   - {fileID: 2165657308204072708, guid: a44e056b20ab2ae4d987c5b3efce669f, type: 3}
-  _amountSpawnPerWave: 1
+  _difficultyLvl: 1
 --- !u!4 &669907661
 Transform:
   m_ObjectHideFlags: 0
@@ -2107,7 +2107,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1444681367}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 340.54663, y: 133.8345, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2300,10 +2300,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2853294570463755504, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
-      propertyPath: _playerHealth
-      value: 210000
-      objectReference: {fileID: 0}
     - target: {fileID: 2853294570463755504, guid: 9246b6f7843fb3a46b8e25e2c45fecaf, type: 3}
       propertyPath: _audioManagerObject
       value: 

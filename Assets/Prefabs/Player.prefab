@@ -275,7 +275,7 @@ MonoBehaviour:
   _tripleShotPrefab: {fileID: 6182582455045883186, guid: 8ab592361f55e6b47948788a09462e01, type: 3}
   _gas: 10
   _setthrust: 1
-  refill: 0
+  _refill: 0
   _audioManagerObject: {fileID: 0}
 --- !u!70 &1998629755
 CapsuleCollider2D:
