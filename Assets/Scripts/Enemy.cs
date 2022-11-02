@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private bool _setShield;
     [SerializeField] SpriteRenderer _disableShield;
 
-    [SerializeField] private float _shieldPercent;
+    [SerializeField] private float _shieldPercent = 0.85f;
 
     Vector3 _centre;
     private float _radius = 1f;
@@ -51,7 +51,14 @@ public class Enemy : MonoBehaviour
             Shoot();
         }
     }
-
+    public void AdjustShieldChance(float percentage) 
+    {
+        _shieldPercent -= percentage;
+    }
+    public void ResetShieldChance(float percentage)
+    {
+        _shieldPercent = percentage;
+    }
     private void RandomShieldSpawn() 
     { 
         if(Random.value > _shieldPercent) 

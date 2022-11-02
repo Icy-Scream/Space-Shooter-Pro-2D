@@ -133,7 +133,7 @@ MonoBehaviour:
   _enemyShield: {fileID: 6246904153309184626, guid: d9a804a7a90c62e4da1e99a00fc972b0, type: 3}
   _setShield: 0
   _disableShield: {fileID: 0}
-  _shieldPercent: 0.1
+  _shieldPercent: 1
 --- !u!61 &7874923383959956957
 BoxCollider2D:
   m_ObjectHideFlags: 0

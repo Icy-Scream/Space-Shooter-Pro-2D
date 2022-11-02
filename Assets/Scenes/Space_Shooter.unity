@@ -1081,7 +1081,7 @@ MonoBehaviour:
   - {fileID: 7677268661602426896, guid: 96e3fa930ca72204798664e0ee4db8d7, type: 3}
   - {fileID: 4608289124276997761, guid: 99b9576c08fc07c44b4928bd4868a97b, type: 3}
   _rarePowerUpTimer: 0
-  _powerUpTimer: 0
+  _powerUpTimer: 5
   _waves:
   - {fileID: 2165657308204072708, guid: b5e2a01a6e6ccb24e81f0a00eae78ccb, type: 3}
   - {fileID: 2165657308204072708, guid: a44e056b20ab2ae4d987c5b3efce669f, type: 3}
