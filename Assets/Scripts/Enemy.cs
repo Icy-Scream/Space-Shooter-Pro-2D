@@ -110,7 +110,7 @@ public class Enemy : MonoBehaviour
 
        if(_distance < 3) 
         {
-            transform.position = Vector3.MoveTowards(transform.position,_player.transform.position, _enemySpeed * Time.deltaTime);
+            transform.Translate((_player.transform.position - transform.position).normalized * _enemySpeed * Time.deltaTime);
         }
         else 
         {
@@ -121,8 +121,6 @@ public class Enemy : MonoBehaviour
 
     }
 
-        
-    
    private void EnemyMovement()
     {
         transform.Translate((_enemyDirection) * _enemySpeed * Time.deltaTime);
