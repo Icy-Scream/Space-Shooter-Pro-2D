@@ -20,16 +20,17 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private float _shieldPercent = 0.85f;
 
+    [SerializeField] private float _distance;
+    [SerializeField] private float _attackRange;
     Vector3 _centre;
     private float _radius = 1f;
     private float _angle;
     private float _rotateSpeed = 5f;
     private int _rightOrLeft = 0;
-
     private Player  _player;
-    
     private void Start()
     {
+        RandomShieldSpawn();
         if (GameObject.Find("Player"))
         {
             _player = GameObject.Find("Player").GetComponent<Player>();
@@ -37,10 +38,16 @@ public class Enemy : MonoBehaviour
         }
         else Debug.Log("Player Object Destroyed");
 
-        RandomShieldSpawn();
+        if(this.gameObject.name == "Battering_Ram_Enemy" || this.gameObject.name == "Battering_Ram_Enemy(Clone)") 
+        {
+            _movementID = 3;
+        }
+        else 
+        { 
+            _movementID = Random.Range(0,3);
+        }
         _fireReady = true;
         _centre = (new Vector3(transform.position.x,-0.28f,0f));
-        _movementID = Random.Range(0,3);
     }
     void Update()
     {
@@ -84,13 +91,35 @@ public class Enemy : MonoBehaviour
             case 2:
                 SpinInCircle();
                 break;
+            case 3:
+                RamAttack();
+                break;
             default:
                 EnemyMovement();
                 break;
         }
     }
-        
-        
+
+    private void RamAttack()
+    {
+        if (_player == null)
+        {
+            return;
+        }
+      _distance = Vector3.Distance(_player.transform.position, this.transform.position);
+
+       if(_distance < 3) 
+        {
+            transform.position = Vector3.MoveTowards(transform.position,_player.transform.position, _enemySpeed * Time.deltaTime);
+        }
+        else 
+        {
+            transform.Translate((Vector3.down) * _enemySpeed * Time.deltaTime);
+            _randomSpawn = new Vector3(Random.Range(-10f, 10f), _enemySpawn, 0);
+            Destroy(this.gameObject);
+        }
+
+    }
 
         
     
