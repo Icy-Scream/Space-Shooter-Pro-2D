@@ -67,7 +67,7 @@ public class Spawn_Mananger : MonoBehaviour
                     }
             }
             
-            if (_newEnemy < _enemy.Length - 1 && _difficultyLvl == 3 || _newEnemy < _enemy.Length - 1 && _difficultyLvl == 4)
+            if (_newEnemy < _enemy.Length - 1 && _difficultyLvl == 3 ||  _difficultyLvl == 4)
             {
                 _newEnemy++;
             }

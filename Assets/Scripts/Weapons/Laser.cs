@@ -22,6 +22,10 @@ public class Laser : MonoBehaviour
             _ID = 1; 
             Debug.Log("SHOOTING PLAYER"); 
         }
+       else if(transform.parent.tag == "Smart_Enemy") 
+        {
+            _ID = 1;
+        }
     }
 
     void Update()

@@ -16,11 +16,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _movementID;
     [SerializeField] private GameObject _enemyShield;
     [SerializeField] private bool _setShield;
-    [SerializeField] SpriteRenderer _disableShield;
+    SpriteRenderer _disableShield;
 
     [SerializeField] private float _shieldPercent = 0.85f;
 
-    [SerializeField] private float _distance;
+     private float _distance;
     [SerializeField] private float _attackRange;
     Vector3 _centre;
     private float _radius = 1f;
@@ -28,6 +28,8 @@ public class Enemy : MonoBehaviour
     private float _rotateSpeed = 5f;
     private int _rightOrLeft = 0;
     private Player  _player;
+    public float _playerPOS;
+    private Vector3 _playerDistance;
     private void Start()
     {
         RandomShieldSpawn();
@@ -41,6 +43,10 @@ public class Enemy : MonoBehaviour
         if(this.gameObject.name == "Battering_Ram_Enemy" || this.gameObject.name == "Battering_Ram_Enemy(Clone)") 
         {
             _movementID = 3;
+        }
+        else if (this.gameObject.name == "Smart_Enemy" || this.gameObject.name == "Smart_Enemy(Clone)")
+        {
+            _movementID = 4;
         }
         else 
         { 
@@ -94,12 +100,43 @@ public class Enemy : MonoBehaviour
             case 3:
                 RamAttack();
                 break;
+            case 4:
+                SmartAttack();
+                break;
             default:
                 EnemyMovement();
                 break;
         }
     }
 
+    private void SmartAttack()
+    {
+        Vector3 _enemyEyes = Vector3.down;
+        _playerDistance = _player.transform.position-this.transform.position;
+        _playerPOS = Vector3.Dot(_enemyEyes, _playerDistance.normalized);
+        transform.Translate(Vector3.down * _enemySpeed * Time.deltaTime);
+        if(_playerPOS < 0) 
+        {
+            this.gameObject.tag = "Smart_Enemy";
+            if (_fireReady == true)
+            {
+                Shoot();
+            }
+        }
+        else
+
+        {
+            this.gameObject.tag = "Enemy";
+            if (_fireReady == true)
+            {
+               Shoot(); 
+            }
+        }
+    }
+    public float PlayerPOS() 
+    { 
+        return _playerPOS;
+    }
     private void RamAttack()
     {
         if (_player == null)
@@ -225,10 +262,6 @@ public class Enemy : MonoBehaviour
             _laser.transform.parent = transform.parent;
         }
     }
-
-
-
-
 
     private void OnTriggerEnter2D(Collider2D other)
     {
