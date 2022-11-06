@@ -50,7 +50,7 @@ MonoBehaviour:
   _enemyDirection: {x: 0, y: -1, z: 0}
   _enemySpawn: 6.8
   _randomSpawn: {x: 0, y: 0, z: 0}
-  _enemySpeed: 4
+  _enemySpeed: 0.5
   _explosion: {fileID: 3261050592880432626, guid: 2092d5f78e5c0b347a933f9baaf50adb, type: 3}
   laser: {fileID: 7973096874088234063, guid: dc3ae3bca346eb648a9b096a3c0f863a, type: 3}
   _coolDownLaser: 3
@@ -58,10 +58,9 @@ MonoBehaviour:
   _movementID: 0
   _enemyShield: {fileID: 6246904153309184626, guid: d9a804a7a90c62e4da1e99a00fc972b0, type: 3}
   _setShield: 0
-  _disableShield: {fileID: 0}
   _shieldPercent: 0.85
-  _distance: 0
   _attackRange: 0
+  _playerPOS: 0
 --- !u!212 &4731213134040272260
 SpriteRenderer:
   m_ObjectHideFlags: 0

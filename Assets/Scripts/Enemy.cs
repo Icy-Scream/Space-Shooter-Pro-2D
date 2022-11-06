@@ -30,6 +30,8 @@ public class Enemy : MonoBehaviour
     private Player  _player;
     public float _playerPOS;
     private Vector3 _playerDistance;
+    private PowerUp[] _powerUpsPOS;
+    private bool _destroyPowerUp = false;
     private void Start()
     {
         RandomShieldSpawn();
@@ -58,6 +60,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         PickingMovement();
+        DetectPowerUp();
 
        if(_fireReady == true) 
         { 
@@ -108,6 +111,40 @@ public class Enemy : MonoBehaviour
                 break;
         }
     }
+
+    private void DetectPowerUp()
+    {
+        _powerUpsPOS = FindObjectsOfType<PowerUp>();
+        Vector3 _powerDistance;
+        float _infront;
+        if (_powerUpsPOS == null)
+        {
+            Debug.Log("No Power-UPs on Screen");
+        }
+        foreach (var p in _powerUpsPOS)
+        {
+            _powerDistance = p.transform.position - this.transform.position;
+            Debug.Log(_powerDistance.magnitude + " " + p.name);
+            if (_powerDistance.magnitude < 3) 
+            { 
+                _infront = Vector3.Dot(Vector3.down, _powerDistance.normalized);
+                if (_infront <= 1 && _infront >= 0.98)
+                {
+                    _destroyPowerUp = true;
+                    Debug.Log("Destroy Power UP" + " " + _infront);
+                }
+                else _destroyPowerUp = false;
+            }
+        }
+    }
+    
+    public bool DestroyPowerUp() 
+    {
+       return _destroyPowerUp;
+    }
+            
+            
+            
 
     private void SmartAttack()
     {

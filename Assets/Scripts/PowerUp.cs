@@ -26,12 +26,12 @@ public class PowerUp : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-          Player player =  other.GetComponent<Player>();
-            
-            if (player != null) 
+            Player player = other.GetComponent<Player>();
+
+            if (player != null)
             {
-                switch (_powerUpID) 
-                { 
+                switch (_powerUpID)
+                {
                     case 0:
                         player.SetTripleShot();
                         break;
@@ -57,11 +57,15 @@ public class PowerUp : MonoBehaviour
                         Debug.Log("Default Value");
                         break;
                 }
-                
+
             }
-         
+
             Destroy(this.gameObject);
-            
+
+        }
+        else if (other.gameObject.tag == "Enemy_Laser")
+        {
+            Destroy(this.gameObject);
         }
     }
 }
