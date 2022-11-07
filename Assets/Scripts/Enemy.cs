@@ -31,6 +31,7 @@ public class Enemy : MonoBehaviour
     public float _playerPOS;
     private Vector3 _playerDistance;
     private PowerUp[] _powerUpsPOS;
+    private Laser[] _laser;
     private bool _destroyPowerUp = false;
     private void Start()
     {
@@ -60,7 +61,8 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         PickingMovement();
-        DetectPowerUp();
+       // DetectPowerUp();
+        DetectLaserUp();
 
        if(_fireReady == true) 
         { 
@@ -137,7 +139,36 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-    
+
+    private void DetectLaserUp()
+    {
+        _laser = FindObjectsOfType<Laser>();
+        Vector3 _laserDistance;
+        float _infront;
+       if (_laser == null)
+         {
+             Debug.Log("No lasers on Screen");
+         }
+        foreach (var l in _laser)
+        {
+            if (l.gameObject.tag == "Laser") 
+            { 
+                _laserDistance = l.transform.position - this.transform.position;
+                if (_laserDistance.magnitude < 3)
+                {
+                    _infront = Vector3.Dot(Vector3.down, _laserDistance.normalized);
+                    if (_infront <= 1 && _infront >= 0.88)
+                    {
+                       this.transform.Translate(Vector2.right * 5 * Time.deltaTime);
+                    }
+                }
+            }
+        }
+    }
+
+            
+            
+
     public bool DestroyPowerUp() 
     {
        return _destroyPowerUp;
@@ -149,7 +180,7 @@ public class Enemy : MonoBehaviour
     private void SmartAttack()
     {
         Vector3 _enemyEyes = Vector3.down;
-        _playerDistance = _player.transform.position-this.transform.position;
+        _playerDistance = _player.transform.position - this.transform.position;
         _playerPOS = Vector3.Dot(_enemyEyes, _playerDistance.normalized);
         transform.Translate(Vector3.down * _enemySpeed * Time.deltaTime);
         if(_playerPOS < 0) 
@@ -279,7 +310,6 @@ public class Enemy : MonoBehaviour
 
     private void Shoot() 
     {
-        Debug.Log("PEW PEW ENEMY");
         StartCoroutine(LaserParentChangeRoutine());
         _fireReady = false;
         StartCoroutine(ShootCoolDownRoutine());

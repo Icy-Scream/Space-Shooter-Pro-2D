@@ -15,16 +15,18 @@ public class Laser : MonoBehaviour
        if(transform.parent.tag == "Enemy") 
         {
             _ID = 2;
-            Debug.Log("SHOOTING ENEMY");
+            this.gameObject.tag = "Enemy_Laser";
         }
         else if(transform.parent.tag == "Player" || transform.parent.tag == "TripleShot") 
         {  
-            _ID = 1; 
-            Debug.Log("SHOOTING PLAYER"); 
+            _ID = 1;
+            this.gameObject.tag = "Laser";
+            Debug.Log("PLAYER LASER"); 
         }
        else if(transform.parent.tag == "Smart_Enemy") 
         {
             _ID = 1;
+            this.gameObject.tag = "Enemy_Laser";
         }
     }
 
