@@ -91,6 +91,7 @@ public class Player : MonoBehaviour
         PlayerAxisMove();
         Shoot();
         Thruster();
+        PickUpPowerUps();
     }
     
    
@@ -177,6 +178,18 @@ public class Player : MonoBehaviour
         }
           if (_gas == 10) { _setthrust = true; }
         
+    }
+    private void PickUpPowerUps() 
+    {
+        PowerUp[] _collectPower;
+        if (Input.GetKey(KeyCode.C))
+        {
+            _collectPower = FindObjectsOfType<PowerUp>();
+            foreach (var p in _collectPower) 
+            {
+                p.transform.position = Vector3.MoveTowards(p.transform.position, this.transform.position,  6 * Time.deltaTime);
+            }
+        }
     }
     private void Shoot()
     {
