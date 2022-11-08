@@ -26,7 +26,7 @@ public class Rocket : MonoBehaviour
             }
 
         }
-        else if(transform.parent.name == "Boss")
+        else if(transform.parent.name == "Boss(Clone)")
         {
             _id = 0;
             _seekingPlayer = FindObjectOfType<Player>();
