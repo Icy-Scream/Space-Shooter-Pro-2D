@@ -14,9 +14,7 @@ public class Spawn_Mananger : MonoBehaviour
     [SerializeField] GameObject[] _powerUps;
     [SerializeField] float _rarePowerUpTimer;
     [SerializeField] float _powerUpTimer = 5f;
-    [SerializeField] GameObject[] _waves;
     [SerializeField] private int _difficultyLvl = 1;
-    GameObject[] _enemyWave;
 
     private Vector3 _spawnPOS;
     private void Update()
@@ -66,11 +64,17 @@ public class Spawn_Mananger : MonoBehaviour
                      _enemy[i].GetComponent<Enemy>().AdjustShieldChance(0.1f);
                     }
             }
-            
-            if (_newEnemy < _enemy.Length - 1 && _difficultyLvl == 3 ||  _difficultyLvl == 4)
+            else if(_difficultyLvl == 7) 
+            { 
+                GameObject _boss = Instantiate(_enemy[4], _spawnPOS, Quaternion.identity);
+                
+            }
+          
+            if (_difficultyLvl == 3 ||  _difficultyLvl == 4 || _difficultyLvl == 5)
             {
                 _newEnemy++;
             }
+            
             _increaseDifficulty = false;
         }
     }

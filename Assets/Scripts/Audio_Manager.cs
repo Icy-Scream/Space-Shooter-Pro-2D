@@ -11,7 +11,6 @@ public class Audio_Manager : MonoBehaviour
     [SerializeField] private AudioClip _collectLivesClip;
     [SerializeField] private AudioClip _ammoReload;
     [SerializeField] private AudioClip _rocketFire;
-
     public void PlayLaserClip() 
     { 
         _audioSource.clip = _laserAudioClip;

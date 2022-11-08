@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Android;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Player : MonoBehaviour
 {
@@ -207,7 +208,7 @@ public class Player : MonoBehaviour
             else if(_setRockets)
             {
                 _audioManager.RocketFireClip();
-                Instantiate(_rocket, transform.position, Quaternion.identity);
+                StartCoroutine(RocketParentChangeRoutine());
                 _fireWeapon = false;
                 StartCoroutine(DelayFireRateRoutine());
             }
@@ -230,6 +231,19 @@ public class Player : MonoBehaviour
                 _ammoCount = _totalAmmo;
                 _fireWeapon = true;
             }
+        }
+    }
+    IEnumerator RocketParentChangeRoutine()
+    {
+        GameObject rocket = Instantiate(_rocket, transform.position, Quaternion.identity, this.transform);
+        if (rocket == null)
+        {
+            Debug.Log("Rocket Missing");
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.0001f); ;
+            rocket.transform.parent = transform.parent;
         }
     }
     private void LowAmmoAudio()

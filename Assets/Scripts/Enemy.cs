@@ -211,7 +211,8 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
-      _distance = Vector3.Distance(_player.transform.position, this.transform.position);
+      
+        _distance = Vector3.Distance(_player.transform.position, this.transform.position);
 
        if(_distance < 3) 
         {
@@ -221,7 +222,6 @@ public class Enemy : MonoBehaviour
         {
             transform.Translate((Vector3.down) * _enemySpeed * Time.deltaTime);
             _randomSpawn = new Vector3(Random.Range(-10f, 10f), _enemySpawn, 0);
-            Destroy(this.gameObject);
         }
 
     }

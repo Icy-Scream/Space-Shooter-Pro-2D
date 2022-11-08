@@ -11,6 +11,8 @@ TagManager:
   - Enemy_Laser
   - Rocket
   - Smart_Enemy
+  - Boss
+  - Boss_Rocket
   layers:
   - Default
   - TransparentFX

@@ -12,7 +12,7 @@ public class Laser : MonoBehaviour
     {
         StartCoroutine(DestroyLaserRoutine());
       
-       if(transform.parent.tag == "Enemy") 
+       if(transform.parent.tag == "Enemy" || transform.parent.tag == "Boss") 
         {
             _ID = 2;
             this.gameObject.tag = "Enemy_Laser";
@@ -51,5 +51,5 @@ public class Laser : MonoBehaviour
         yield return new WaitForSeconds(_destroyTimer);
         Destroy(this.gameObject);
     }
-   
+
 }
