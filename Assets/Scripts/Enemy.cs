@@ -187,21 +187,27 @@ public class Enemy : MonoBehaviour
         _playerPOS = Vector3.Dot(_enemyEyes, _playerDistance.normalized);
         transform.Translate(Vector3.down * _enemySpeed * Time.deltaTime);
         if(_playerPOS < 0) 
-        {
+         {
             this.gameObject.tag = "Smart_Enemy";
             if (_fireReady == true)
             {
                 Shoot();
             }
-        }
+         }
+        
         else
 
-        {
+         {
             this.gameObject.tag = "Enemy";
             if (_fireReady == true)
             {
                Shoot(); 
             }
+         }
+
+       if (transform.position.y < -6.5f)
+        {
+            Destroy(this.gameObject);
         }
     }
     private void RamAttack()
@@ -219,10 +225,13 @@ public class Enemy : MonoBehaviour
         {
             transform.Translate((_player.transform.position - transform.position).normalized * _enemySpeed * Time.deltaTime);
         }
-        else 
+       else if (transform.position.y < -6.5f)
+        {
+            Destroy(gameObject);
+        }
+       else 
         {
             transform.Translate((Vector3.down) * _enemySpeed * Time.deltaTime);
-            _randomSpawn = new Vector3(Random.Range(-10f, 10f), _enemySpawn, 0);
         }
 
     }
