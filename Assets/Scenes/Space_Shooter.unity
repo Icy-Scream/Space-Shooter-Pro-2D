@@ -1062,19 +1062,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c0e524319b74b4e84c0259a69c8210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startTimer: 0
   _difficultyTimer: 20
   _increaseDifficulty: 0
-  _enemyContainer: {fileID: 1176917138}
-  _stopspawing: 0
+  _difficultyLvl: 1
   _enemy:
   - {fileID: 729024551871056483, guid: 73343a9d4233eeb4786b55df2838a28c, type: 3}
   - {fileID: 2236086081536809227, guid: 05d831d88af35924daac98b49b33b510, type: 3}
   - {fileID: 3692608745024436689, guid: 64cb7034ce6744941aa8f22fac49ba7b, type: 3}
   - {fileID: 4731213134040272283, guid: e00f85a7796067e438d9fc17090eab28, type: 3}
   - {fileID: 7554645408517569992, guid: f54f1ff6c1c39944b992e46f588f0f16, type: 3}
+  _enemySpawnRateMax: 4
+  _enemySpawnRate: 1
   _spawnEnemyTimer: 5
   _newEnemy: 0
+  _enemyContainer: {fileID: 1176917138}
   _powerUps:
   - {fileID: 8574715538676237418, guid: 295838eb66b622b4a91960b9145a4e01, type: 3}
   - {fileID: 2162877809248072811, guid: 47ecb0aeb9567e549a16622840232879, type: 3}
@@ -1085,7 +1086,6 @@ MonoBehaviour:
   - {fileID: 4608289124276997761, guid: 99b9576c08fc07c44b4928bd4868a97b, type: 3}
   _rarePowerUpTimer: 0
   _powerUpTimer: 5
-  _difficultyLvl: 1
 --- !u!4 &669907661
 Transform:
   m_ObjectHideFlags: 0

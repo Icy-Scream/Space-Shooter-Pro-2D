@@ -33,6 +33,8 @@ public class Enemy : MonoBehaviour
     private PowerUp[] _powerUpsPOS;
     private Laser[] _laser;
     private bool _destroyPowerUp = false;
+    bool _spinning =false;
+    int _totalSpins;
     private void Start()
     {
         RandomShieldSpawn();
@@ -61,9 +63,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         PickingMovement();
-       // DetectPowerUp();
-        DetectLaserUp();
-
+        DetectPowerUp();
        if(_fireReady == true) 
         { 
             Shoot();
@@ -179,6 +179,7 @@ public class Enemy : MonoBehaviour
 
     private void SmartAttack()
     {
+        DetectLaserUp();
         Vector3 _enemyEyes = Vector3.down;
         _playerDistance = _player.transform.position - this.transform.position;
         _playerPOS = Vector3.Dot(_enemyEyes, _playerDistance.normalized);
@@ -200,10 +201,6 @@ public class Enemy : MonoBehaviour
                Shoot(); 
             }
         }
-    }
-    public float PlayerPOS() 
-    { 
-        return _playerPOS;
     }
     private void RamAttack()
     {
@@ -278,8 +275,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    bool _spinning =false;
-    int _totalSpins;
    private void SpinInCircle() 
     {
 

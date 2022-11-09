@@ -3,20 +3,25 @@ using UnityEngine;
 
 public class Spawn_Mananger : MonoBehaviour
 {
-    [SerializeField] private bool _startTimer = false;
+    private bool _startTimer = false;
+    private bool _stopspawing = false;
+    private Vector3 _spawnPOS;
+    
     [SerializeField] private float _difficultyTimer;
     [SerializeField] private bool _increaseDifficulty;
-    [SerializeField] GameObject _enemyContainer;
-    [SerializeField] private bool _stopspawing = false;
+    [SerializeField] private int _difficultyLvl = 1;
+    
     [SerializeField] GameObject[] _enemy;
+    [SerializeField] private int _enemySpawnRateMax = 4;
+    [SerializeField] private int _enemySpawnRate = 1;
     [SerializeField] float _spawnEnemyTimer;
     [SerializeField] private int _newEnemy = 0;
+    [SerializeField] GameObject _enemyContainer;
+    
     [SerializeField] GameObject[] _powerUps;
     [SerializeField] float _rarePowerUpTimer;
     [SerializeField] float _powerUpTimer = 5f;
-    [SerializeField] private int _difficultyLvl = 1;
 
-    private Vector3 _spawnPOS;
     private void Update()
     {
         IncreaseDifficulty();
@@ -39,7 +44,7 @@ public class Spawn_Mananger : MonoBehaviour
             while (!_increaseDifficulty)
             {
                 yield return new WaitForSeconds(_spawnEnemyTimer);
-                for (int i = 0; i < _difficultyLvl; i++)
+                for (int i = 0; i < _enemySpawnRate; i++)
                 {
                     _spawnPOS = new Vector3(Random.Range(-9.0f, 9.0f), Random.Range(5f, 9.0f), 0);
                     if (Random.value > 0.5)
@@ -56,7 +61,12 @@ public class Spawn_Mananger : MonoBehaviour
                 }
             }
             _difficultyLvl++;
-           
+            
+            if(_enemySpawnRate <= _enemySpawnRateMax) 
+            { 
+                _enemySpawnRate++;
+            }
+            
             if(_difficultyLvl < 6) 
             { 
                 for(int i = 0; i <= 1; i++) 
@@ -66,9 +76,9 @@ public class Spawn_Mananger : MonoBehaviour
             }
             else if(_difficultyLvl == 7) 
             { 
-                GameObject _boss = Instantiate(_enemy[4], _spawnPOS, Quaternion.identity);
-                
+               Instantiate(_enemy[4], _spawnPOS, Quaternion.identity);
             }
+                
           
             if (_difficultyLvl == 3 ||  _difficultyLvl == 4 || _difficultyLvl == 5)
             {

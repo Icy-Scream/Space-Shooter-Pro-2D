@@ -62,7 +62,7 @@ public class Boss : MonoBehaviour
         {
             Instantiate(_explosion, transform.position, Quaternion.identity,this.gameObject.transform);
             _bossIsDead = true;
-            Destroy(gameObject);
+            Destroy(gameObject,3);
         }
     }
 

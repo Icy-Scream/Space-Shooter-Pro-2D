@@ -186,9 +186,15 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.C))
         {
             _collectPower = FindObjectsOfType<PowerUp>();
-            foreach (var p in _collectPower) 
+            foreach (var p in _collectPower)
             {
-                p.transform.position = Vector3.MoveTowards(p.transform.position, this.transform.position,  6 * Time.deltaTime);
+                float _powerUpDistance = Vector3.Distance(this.transform.position, p.transform.position);
+                if (_powerUpDistance < 5) 
+                { 
+                    p.transform.position = Vector3.MoveTowards(p.transform.position, this.transform.position,  6 * Time.deltaTime);
+                }
+                
+                
             }
         }
     }
@@ -377,10 +383,10 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Enemy_Laser") 
+        if(collision.tag == "Enemy_Laser"||collision.tag == "Boss_Rocket") 
         {
             Damage();
-            Destroy(collision.gameObject);
+            Destroy(collision.gameObject,2f);
         }
     }
 
