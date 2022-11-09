@@ -1,18 +1,17 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private Vector3 _enemyDirection = new Vector3(0,-1,0);
+    private Vector3 _enemyDirection = new Vector3(0,-1,0);
+    private Vector3 _randomSpawn;
+    private bool _fireReady;
     [SerializeField] private float _enemySpawn = 6.8f;
-    [SerializeField] private Vector3 _randomSpawn;
     [SerializeField] private float _enemySpeed = 4.0f;
   
     [SerializeField] private GameObject _explosion;
     [SerializeField] private GameObject laser;
     [SerializeField] private float _coolDownLaser;
-    [SerializeField] private bool _fireReady;
     [SerializeField] private int _movementID;
     [SerializeField] private GameObject _enemyShield;
     [SerializeField] private bool _setShield;
@@ -22,6 +21,7 @@ public class Enemy : MonoBehaviour
 
      private float _distance;
     [SerializeField] private float _attackRange;
+    
     Vector3 _centre;
     private float _radius = 1f;
     private float _angle;

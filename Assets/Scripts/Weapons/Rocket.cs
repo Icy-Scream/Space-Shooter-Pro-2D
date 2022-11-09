@@ -1,10 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-
 public class Rocket : MonoBehaviour
 {
     [SerializeField] float _rocketSpeed;
@@ -37,11 +31,6 @@ public class Rocket : MonoBehaviour
             }
         }     
     }
-        
-        
-       
-            
-
 
     void Update()
     {
@@ -88,17 +77,4 @@ public class Rocket : MonoBehaviour
             Destroy(this.gameObject, 3);
         }
     }
-    private void MathROcket()
-    {
-        Vector3 a = this.transform.position;
-        Vector3 b = _seekingEnemy.transform.position;
-        Vector3 _directionToTarget =(b - a).normalized;
-        transform.Translate(_directionToTarget  *  Time.deltaTime);
-    }           
-                
-            
-            
-
- 
-
 }

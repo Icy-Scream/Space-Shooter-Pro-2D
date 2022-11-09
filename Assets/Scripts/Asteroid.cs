@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class Asteroid : MonoBehaviour
@@ -14,7 +11,6 @@ public class Asteroid : MonoBehaviour
         _spawnMananger = GameObject.Find("Spawn_Manager").GetComponent<Spawn_Mananger>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.Rotate(Vector3.forward * _rotationSpeed * Time.deltaTime);   

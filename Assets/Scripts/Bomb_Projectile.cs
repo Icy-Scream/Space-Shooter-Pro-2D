@@ -1,17 +1,19 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bomb_Projectile : MonoBehaviour
 {
     private Player _player;
-    [SerializeField] private Vector3 _trackPlayerPOS;
-    [SerializeField] private float _distance;
+    private Vector3 _trackPlayerPOS;
+    private float _distance;
+    private bool _exploding;
     [SerializeField] GameObject _explosion;
-    [SerializeField] private bool _exploding;
+    
     [Range(1f,4f)]
     [SerializeField] private float _detonationTimer;
+    
     [SerializeField] private float _speed;
+    
        
     void Start()
     {
@@ -24,7 +26,6 @@ public class Bomb_Projectile : MonoBehaviour
         StartCoroutine(DetonationTimerRoutine());
     }
 
-    // Update is called once per frame
     void Update()
     {
         ExplosionRadius();
@@ -38,6 +39,7 @@ public class Bomb_Projectile : MonoBehaviour
         _distance = Vector3.Distance(transform.position, _trackPlayerPOS);
         
         transform.Translate(Vector3.down * _speed * Time.deltaTime); 
+        
         if (_distance <= 1) 
         {
             _player.Damage();

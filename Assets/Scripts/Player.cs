@@ -1,10 +1,7 @@
-using JetBrains.Annotations;
+
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Android;
-using static UnityEditor.Experimental.GraphView.GraphView;
+
 
 public class Player : MonoBehaviour
 {

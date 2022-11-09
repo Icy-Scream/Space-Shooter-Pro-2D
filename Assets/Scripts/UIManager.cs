@@ -1,11 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System;
-
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text _scoreText;

@@ -28,7 +28,7 @@ public class Spawn_Mananger : MonoBehaviour
     }
     public void StartSpawning()
     {
-        resetShieldPercent();
+        ResetShieldPercent();
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerUp());
         StartCoroutine(RareSpawnPowerUp());
@@ -88,7 +88,7 @@ public class Spawn_Mananger : MonoBehaviour
             _increaseDifficulty = false;
         }
     }
-    private void resetShieldPercent()
+    private void ResetShieldPercent()
     {
         for (int i = 0; i <= 1; i++)
         {
@@ -115,19 +115,19 @@ public class Spawn_Mananger : MonoBehaviour
         while (_stopspawing == false)
         {
            yield return new WaitForSeconds(_powerUpTimer);
-           if (Random.value > 0.6) //%50 percent chance
+           if (Random.value > 0.6)
             {
                 int _powerUpsID = Random.Range(0,4);
                 _spawnPOS = new Vector3(Random.Range(-10.0f, 10.0f), 6.8f, 0);
                 Instantiate(_powerUps[_powerUpsID], _spawnPOS, Quaternion.identity);
             }
-           if (Random.value > 0.4) //%80 percent chance (1 - 0.2 is 0.8)
+           if (Random.value > 0.4)
             {
                 _spawnPOS = new Vector3(Random.Range(-10.0f, 10.0f), 6.8f, 0);
                 Instantiate(_powerUps[3], _spawnPOS, Quaternion.identity);
             }
-           if (Random.value > 0.9) //%30 percent chance (1 - 0.7 is 0.3)
-            { //code here
+           if (Random.value > 0.9)
+            { 
                 _spawnPOS = new Vector3(Random.Range(-10.0f, 10.0f), 6.8f, 0);
                 Instantiate(_powerUps[4], _spawnPOS, Quaternion.identity);
             }
@@ -148,7 +148,7 @@ public class Spawn_Mananger : MonoBehaviour
         {
             _rarePowerUpTimer = Random.Range(30.0f,60.0f);
             yield return new WaitForSeconds(_rarePowerUpTimer);
-            if (Random.value > 0.2) //%80 percent chance (1 - 0.2 is 0.8)
+            if (Random.value > 0.2) 
             {
                 _spawnPOS = new Vector3(Random.Range(-10.0f, 10.0f), 6.8f, 0);
                 Instantiate(_powerUps[5], _spawnPOS, Quaternion.identity);
