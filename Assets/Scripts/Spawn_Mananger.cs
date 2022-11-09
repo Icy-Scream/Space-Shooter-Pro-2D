@@ -21,7 +21,6 @@ public class Spawn_Mananger : MonoBehaviour
     [SerializeField] GameObject[] _powerUps;
     [SerializeField] float _rarePowerUpTimer;
     [SerializeField] float _powerUpTimer = 5f;
-
     private void Update()
     {
         IncreaseDifficulty();
