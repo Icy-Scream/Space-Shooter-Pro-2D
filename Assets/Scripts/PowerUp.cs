@@ -52,6 +52,9 @@ public class PowerUp : MonoBehaviour
                     case 6:
                         player.SetFrozenNegative();
                         break;
+                    case 7:
+                        player.SetScatterShot();
+                        break;
                     default:
                         Debug.Log("Default Value");
                         break;

@@ -22,8 +22,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float _fireRate;
     [SerializeField] private int _ammoCount = 15;
     [SerializeField] private int _totalAmmo = 15;
-     
-     
+
+    [SerializeField] private GameObject _scatterShot;
+    private bool _isScatterShotEnabled = false;
+    private float _scatterShotDuration = 5.0f;
+    
     [SerializeField] private GameObject _tripleShotPrefab;
     private bool _isTripleShotEnabled = false;
     private float _tripleShotDuration = 5.0f;
@@ -208,21 +211,30 @@ public class Player : MonoBehaviour
                 _ammoCount--;
                 LowAmmoAudio();
             }
-            else if(_setRockets)
+            else if (_setRockets)
             {
                 _audioManager.RocketFireClip();
                 StartCoroutine(RocketParentChangeRoutine());
                 _fireWeapon = false;
                 StartCoroutine(DelayFireRateRoutine());
             }
-            else 
-            { 
-               StartCoroutine(LaserParentChangeRoutine());
-               _fireWeapon = false;
-;              _audioManager.PlayLaserClip();
-               StartCoroutine(DelayFireRateRoutine());
-               _ammoCount--;
-               LowAmmoAudio();
+            else if (_isScatterShotEnabled) 
+            {
+                StartCoroutine(LaserParentChangeRoutine());
+                _fireWeapon = false;
+                _audioManager.PlayLaserClip();
+                StartCoroutine(DelayFireRateRoutine());
+                _ammoCount--;
+                LowAmmoAudio();
+            }
+            else
+            {
+            StartCoroutine(LaserParentChangeRoutine());
+            _fireWeapon = false;
+            ; _audioManager.PlayLaserClip();
+            StartCoroutine(DelayFireRateRoutine());
+            _ammoCount--;
+            LowAmmoAudio();
             }
         }
        else if (_ammoCount == 0) 
@@ -314,7 +326,14 @@ public class Player : MonoBehaviour
         _playerSpeed = 0;
         StartCoroutine(FrozenDebuff());    
     }       
-            
+    
+    public void SetScatterShot() 
+    {
+        _audioManager.PlayPowerUpClip();
+        _isScatterShotEnabled = true;
+        StartCoroutine(ScatterShotPowerDownRoutine());
+    }
+    
     public void SetTripleShot() 
     {
         _audioManager.PlayPowerUpClip();
@@ -428,11 +447,22 @@ public class Player : MonoBehaviour
             GameObject _tripleShot = Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity, this.transform);
             yield return new WaitForSeconds(0.0001f);
             _tripleShot.transform.parent = transform.parent;
-           for(int i = 0; i < _tripleShot.transform.childCount; i++) 
-            { 
+            for (int i = 0; i < _tripleShot.transform.childCount; i++)
+            {
                 _tripleShot.transform.GetChild(i).tag = "Laser";
             }
             Destroy(_tripleShot, 3);
+        }
+        else if (_isScatterShotEnabled)
+        {
+            GameObject scatterShot = Instantiate(_scatterShot, transform.position, Quaternion.identity, this.transform);
+            yield return new WaitForSeconds(0.0001f);
+            scatterShot.transform.parent = transform.parent;
+            for (int i = 0; i < _scatterShot.transform.childCount; i++)
+            {
+                scatterShot.transform.GetChild(i).tag = "Laser";
+            }
+            Destroy(scatterShot, 3);
         }
         else
         {
@@ -464,6 +494,12 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(_tripleShotDuration);
         _isTripleShotEnabled = false;
+    }
+
+    IEnumerator ScatterShotPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(_scatterShotDuration);
+        _isScatterShotEnabled = false;
     }
 
     IEnumerator RocketPowerDownRoutine()
