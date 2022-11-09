@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -33,10 +34,13 @@ public class Enemy : MonoBehaviour
     private PowerUp[] _powerUpsPOS;
     private Laser[] _laser;
     private bool _destroyPowerUp = false;
-    bool _spinning =false;
-    int _totalSpins;
+    [SerializeField] bool _spinning =false;
+    float _breakCircle;
+    bool _break = false;
+    
     private void Start()
     {
+        _breakCircle = Time.time + 5f;
         RandomShieldSpawn();
         if (GameObject.Find("Player"))
         {
@@ -126,14 +130,12 @@ public class Enemy : MonoBehaviour
         foreach (var p in _powerUpsPOS)
         {
             _powerDistance = p.transform.position - this.transform.position;
-            Debug.Log(_powerDistance.magnitude + " " + p.name);
             if (_powerDistance.magnitude < 3) 
             { 
                 _infront = Vector3.Dot(Vector3.down, _powerDistance.normalized);
                 if (_infront <= 1 && _infront >= 0.98)
                 {
                     _destroyPowerUp = true;
-                    Debug.Log("Destroy Power UP" + " " + _infront);
                 }
                 else _destroyPowerUp = false;
             }
@@ -204,6 +206,8 @@ public class Enemy : MonoBehaviour
     }
     private void RamAttack()
     {
+        _fireReady = false;
+        
         if (_player == null)
         {
             return;
@@ -275,30 +279,37 @@ public class Enemy : MonoBehaviour
         }
     }
 
-   private void SpinInCircle() 
+    private void SpinInCircle()
     {
 
-        if (transform.position.y > -0.28 && !_spinning || _totalSpins == 4) 
-        { 
-          transform.Translate((Vector3.down) * _enemySpeed * Time.deltaTime);
-          _totalSpins = 0;
-        }
-        
-        
-        else if (transform.position.y <= -0.28 || _spinning)
+        if (transform.position.y > -0.28 && !_spinning)
         {
+            transform.Translate((Vector3.down) * _enemySpeed * Time.deltaTime);
+        }
+
+
+        else if (transform.position.y <= -0.28 && !_break || _spinning)
+        {
+
             _spinning = true;
             _angle += _rotateSpeed * Time.deltaTime;
             var offset = new Vector3(Mathf.Sin(_angle), Mathf.Cos(_angle), 0) * _radius;
             transform.position = _centre + offset;
-            _totalSpins++;
+            if (Time.time > _breakCircle)
+            {
+                _spinning = false;
+                _break = true;
+            }
 
         }
-
         else if (transform.position.y < -6.5f)
         {
-            _randomSpawn = new Vector3(Random.Range(-10f, 10f), _enemySpawn, 0);
-            transform.position = _randomSpawn;
+            Destroy(gameObject);
+        }
+
+        else if (!_spinning && _break)
+        {
+            transform.Translate((Vector3.down) * _enemySpeed * Time.deltaTime);
         }
     }
 

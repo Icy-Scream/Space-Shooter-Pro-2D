@@ -126,6 +126,11 @@ public class Spawn_Mananger : MonoBehaviour
                 _spawnPOS = new Vector3(Random.Range(-10.0f, 10.0f), 6.8f, 0);
                 Instantiate(_powerUps[3], _spawnPOS, Quaternion.identity);
             }
+           if(Random.value > 0.8) 
+            {
+                _spawnPOS = new Vector3(Random.Range(-10.0f, 10.0f), 6.8f, 0);
+                Instantiate(_powerUps[7], _spawnPOS, Quaternion.identity);
+            }
            if (Random.value > 0.9)
             { 
                 _spawnPOS = new Vector3(Random.Range(-10.0f, 10.0f), 6.8f, 0);

@@ -20,7 +20,6 @@ public class Laser : MonoBehaviour
         {  
             _ID = 1;
             this.gameObject.tag = "Laser";
-            Debug.Log("PLAYER LASER"); 
         }
        else if(transform.parent.tag == "Smart_Enemy") 
         {
